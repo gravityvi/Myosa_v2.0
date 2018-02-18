@@ -23,6 +23,7 @@ public class Dashboard extends AppCompatActivity {
          sensorListAdapter=new SensorListAdapter(this,SensorList);
         SensorsView.setLayoutManager(new LinearLayoutManager(this));
 
+
         //after putting all the values in array list set the recycler view adapter
 
         for(int i=0;i<=10;i++)
