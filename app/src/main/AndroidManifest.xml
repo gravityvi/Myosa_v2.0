@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Dashboard" />
-        <activity android:name=".bluetooth_connectivity.BluetoothTerm"/>
+        <activity android:name=".bluetooth_connectivity.BluetoothTerm"
+            android:launchMode="singleTask"/>
         <activity android:name=".bluetooth_connectivity.DeviceList"/>
     </application>
 

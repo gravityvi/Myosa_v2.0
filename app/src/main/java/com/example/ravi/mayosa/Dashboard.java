@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ public class Dashboard extends AppCompatActivity {
     private static ArrayList<SensorObject> SensorList;
     private static SensorListAdapter sensorListAdapter;
     private static Button button;
+    private static boolean flag=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,21 @@ public class Dashboard extends AppCompatActivity {
         SensorList=new ArrayList<SensorObject>();
         sensorListAdapter=new SensorListAdapter(this,SensorList);
         SensorsView.setLayoutManager(new LinearLayoutManager(this));
+        try {
+            Intent intent = getIntent();
+            Bundle extras = intent.getExtras();
+            String Check = extras.getString("Check");
+            if (Check !=null) {
+                Log.d("message",Check);
+                flag = true;
+            }
+        }
+        catch(Exception e)
+        {
+            Log.d("message"," "+e);
+            flag=false;
+        }
+
 
 
         //after putting all the values in array list set the recycler view adapter
@@ -32,8 +51,19 @@ public class Dashboard extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(Dashboard.this, com.example.ravi.mayosa.bluetooth_connectivity.BluetoothTerm.class);
-                startActivity(i);
+
+                if(flag==false)
+                {
+                    Intent i= new Intent(Dashboard.this, com.example.ravi.mayosa.bluetooth_connectivity.BluetoothTerm.class);
+                    startActivity(i);
+                }
+
+                else
+                {
+                    Dashboard.super.onBackPressed();
+                }
+
+
             }
         });
 
