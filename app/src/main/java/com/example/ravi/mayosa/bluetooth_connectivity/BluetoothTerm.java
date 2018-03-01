@@ -21,8 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ravi.mayosa.Database.DataRecord;
 import com.example.ravi.mayosa.HomeActivity;
 import com.example.ravi.mayosa.R;
+import com.example.ravi.mayosa.valueSeque;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,7 +214,7 @@ public class BluetoothTerm extends Activity {
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
 
-                    if(to_store.split("|").length>8){
+                    if(to_store.split("|").length>13){
                         to_store="";
                         break;
                     }
@@ -227,11 +229,10 @@ public class BluetoothTerm extends Activity {
                     Log.e("Message read","*****************     "+to_store+"  "+to_store.split(",").length);
 
 
-                    if ((to_store.split(",").length==8)){
+                    if ((to_store.split(",").length==13)){
                         Log.e("Splited", to_store);
-                        //*********************************************
-                        //BtpRecord tempRec = new BtpRecord(to_store);
-                        //RecordCollector.addRecord(tempRec);
+                        DataRecord tempRec = new DataRecord(to_store);
+                        valueSeque.addRecord(tempRec);
                         mAdapter.notifyDataSetChanged();
                         linearLayoutManager.scrollToPosition(mAdapter.getItemCount());
                         messageList.add(new com.example.ravi.mayosa.bluetooth_connectivity.Message(counter++, to_store, mConnectedDeviceName));
