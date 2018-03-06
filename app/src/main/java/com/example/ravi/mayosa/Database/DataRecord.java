@@ -1,5 +1,8 @@
 package com.example.ravi.mayosa.Database;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Pratik on 26-02-2018.
  */
@@ -20,6 +23,7 @@ public class DataRecord {
     private String magnX;
     private String magnY;
     private String magnZ;
+
 
     public DataRecord(String to_store){
         to_store = to_store.trim();

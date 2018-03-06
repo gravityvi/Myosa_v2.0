@@ -279,12 +279,7 @@ public class BluetoothTerm extends Activity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(BluetoothTerm.this,HomeActivity.class);
-        i.putExtra("Check","Check");
-        startActivity(i);
-    }
+
 
     public void connect(View v) {
         Intent serverIntent = new Intent(this, DeviceList.class);

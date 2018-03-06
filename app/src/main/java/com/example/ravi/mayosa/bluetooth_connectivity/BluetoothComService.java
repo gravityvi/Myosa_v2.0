@@ -20,7 +20,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
 
-/**
+/*
  * This class does all the work for setting up and managing Bluetooth
  * connections with other devices. It has a thread that listens for
  * incoming connections, a thread for connecting with a device, and a
@@ -341,7 +341,7 @@ public class BluetoothComService {
         }
     }
 
-    /**
+    /*
      * This thread runs during a connection with a remote device.
      * It handles all incoming and outgoing transmissions.
      */

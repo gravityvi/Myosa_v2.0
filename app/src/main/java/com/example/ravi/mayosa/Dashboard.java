@@ -19,7 +19,6 @@ public class Dashboard extends AppCompatActivity {
     private static Button button;
     private static boolean flag=false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,22 +26,9 @@ public class Dashboard extends AppCompatActivity {
 
         SensorsView=(RecyclerView)findViewById(R.id.SensorsView);
         SensorList=new ArrayList<SensorObject>();
-        sensorListAdapter=new SensorListAdapter(this,SensorList);
+        sensorListAdapter=new SensorListAdapter(this,SensorList,valueSeque.getValueRecord());
         SensorsView.setLayoutManager(new LinearLayoutManager(this));
-        try {
-            Intent intent = getIntent();
-            Bundle extras = intent.getExtras();
-            String Check = extras.getString("Check");
-            if (Check !=null) {
-                Log.d("message",Check);
-                flag = true;
-            }
-        }
-        catch(Exception e)
-        {
-            Log.d("message"," "+e);
-            flag=false;
-        }
+
 
 
 
@@ -52,16 +38,10 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(flag==false)
-                {
-                    Intent i= new Intent(Dashboard.this, com.example.ravi.mayosa.bluetooth_connectivity.BluetoothTerm.class);
-                    startActivity(i);
-                }
 
-                else
-                {
-                    Dashboard.super.onBackPressed();
-                }
+                Intent i= new Intent(Dashboard.this, com.example.ravi.mayosa.bluetooth_connectivity.BluetoothTerm.class);
+                startActivity(i);
+
 
 
             }
@@ -77,5 +57,21 @@ public class Dashboard extends AppCompatActivity {
 
         SensorsView.setAdapter(sensorListAdapter);
 
+        class Th extends Thread{
+
+            int sizeofList=0;
+            @Override
+            public void run() {
+                while(true){
+                    if(sizeofList!=valueSeque.getValueRecord().size()){
+
+                    }
+                    else
+                    {
+                        sensorListAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        }
     }
 }
