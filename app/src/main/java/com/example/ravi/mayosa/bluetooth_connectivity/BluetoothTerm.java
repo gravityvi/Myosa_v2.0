@@ -214,7 +214,7 @@ public class BluetoothTerm extends Activity {
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
 
-                    if(to_store.split("|").length>13){
+                    if(to_store.split(",").length>13){
                         to_store="";
                         break;
                     }
