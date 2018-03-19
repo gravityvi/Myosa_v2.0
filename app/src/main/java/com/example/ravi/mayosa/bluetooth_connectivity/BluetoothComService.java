@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.ravi.mayosa.Dashboard;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,7 +70,7 @@ public class BluetoothComService {
     private synchronized void setState(int state) {
         mState = state;
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(BluetoothTerm.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+        mHandler.obtainMessage(Dashboard.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     /**
@@ -151,9 +153,9 @@ public class BluetoothComService {
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
         // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(BluetoothTerm.MESSAGE_DEVICE_NAME);
+        Message msg = mHandler.obtainMessage(Dashboard.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothTerm.DEVICE_NAME, device.getName());
+        bundle.putString(Dashboard.DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
         setState(STATE_CONNECTED);
@@ -202,9 +204,9 @@ public class BluetoothComService {
     private void connectionFailed() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothTerm.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(Dashboard.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothTerm.TOAST, "Unable to connect device");
+        bundle.putString(Dashboard.TOAST, "Unable to connect device");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -215,9 +217,9 @@ public class BluetoothComService {
     private void connectionLost() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothTerm.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(Dashboard.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothTerm.TOAST, "Device connection was lost");
+        bundle.putString(Dashboard.TOAST, "Device connection was lost");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -375,7 +377,7 @@ public class BluetoothComService {
                     // bytes = mmInStream.read(buffer);
                     buffer = p.readLine();
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothTerm.MESSAGE_READ, buffer.length(), -1, buffer)
+                    mHandler.obtainMessage(Dashboard.MESSAGE_READ, buffer.length(), -1, buffer)
                             .sendToTarget();
                 } catch (IOException e) {
                     connectionLost();
@@ -393,7 +395,7 @@ public class BluetoothComService {
             try {
                 mmOutStream.write(buffer);
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(BluetoothTerm.MESSAGE_WRITE, -1, -1, buffer)
+                mHandler.obtainMessage(Dashboard.MESSAGE_WRITE, -1, -1, buffer)
                         .sendToTarget();
             } catch (IOException e) {
             }
