@@ -11,17 +11,19 @@ import java.util.ArrayList;
 
 public class
 valueSeque {
+    public static int data_read=0;
+    private static ArrayList<String[]> values=new ArrayList<>();
     private static ArrayList<DataRecord> valueRecord = new ArrayList<DataRecord>();
-    public static void addRecord(DataRecord record){
+    public static void addRecord(DataRecord record,String[] array){
         valueRecord.add(record);
-<<<<<<< HEAD
-
-=======
+        values.add(array);
         Log.e("Warn",Integer.toString(valueRecord.size()));
->>>>>>> d932d42f40ccf5053fc7e538b324d85f9dd1c35b
+
     }
 
     public static ArrayList<DataRecord> getValueRecord(){
         return valueRecord;
     }
+    public static ArrayList<String[]> getValues(){return values;}
+
 }

@@ -70,6 +70,7 @@ public class Dashboard extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private LinearLayoutManager linearLayoutManager;
     public int counter = 0;
+    private int first_entry=0;
 
     private List<Message> messageList = new ArrayList<com.example.ravi.mayosa.bluetooth_connectivity.Message>();
 
@@ -117,7 +118,7 @@ public class Dashboard extends AppCompatActivity {
             SensorList.add(sensorObject);
         }
 
-        //SensorsView.setAdapter(sensorListAdapter);
+
 
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
@@ -244,7 +245,15 @@ public class Dashboard extends AppCompatActivity {
 
                     if ((to_store.split(",").length==13)){
                         DataRecord tempRec = new DataRecord(to_store);
-                        valueSeque.addRecord(tempRec);
+                        to_store=to_store.trim();
+                        String s[]=to_store.split(",");
+                        valueSeque.addRecord(tempRec,s);
+                        if(first_entry==0)
+                        {
+                            SensorsView.setAdapter(sensorListAdapter);
+                        }
+                        first_entry=1;
+                        sensorListAdapter.notifyDataSetChanged();
                         to_store = "";
                     }
 
@@ -252,6 +261,7 @@ public class Dashboard extends AppCompatActivity {
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
+
                     Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_TOAST:
