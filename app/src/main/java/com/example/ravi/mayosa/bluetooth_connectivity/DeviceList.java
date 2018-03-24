@@ -101,9 +101,11 @@ public class DeviceList extends Activity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(DeviceList.this,Dashboard.class);
-        i.putExtra("Check","Check");
-        startActivity(i);
+        Intent intent = new Intent();
+        // Set result and finish this Activity
+        setResult(-2, intent);
+        DeviceList.this.finish();
+
     }
 
     /**
