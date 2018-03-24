@@ -69,16 +69,16 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fbStore"
+        android:elevation="6dp"
         android:layout_margin="20dp"
+        android:clickable="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_marginRight="10dp"
-        app:elevation="10dp"
+        android:stateListAnimator="@animator/fab_raise"
         android:layout_height="wrap_content"
         android:foreground="@drawable/store_button"
-
         ></android.support.design.widget.FloatingActionButton>
-
 </RelativeLayout>
