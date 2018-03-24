@@ -8,12 +8,24 @@
     tools:context="com.example.ravi.mayosa.HomeActivity">
 
     <ImageView
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/home_icon"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/home_icon"
+        android:contentDescription="@string/sensor_councile"/>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:text="@string/TitleName"
+        android:textColor="#0e6655"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

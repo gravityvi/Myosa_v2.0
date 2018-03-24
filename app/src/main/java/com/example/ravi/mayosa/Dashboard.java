@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -67,13 +70,16 @@ public class Dashboard extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private LinearLayoutManager linearLayoutManager;
     public int counter = 0;
-
+    private boolean flag = false;
     private List<Message> messageList = new ArrayList<com.example.ravi.mayosa.bluetooth_connectivity.Message>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String check = null;
+        Intent in = getIntent();
+        check = in.getStringExtra("Check");
+        if (check != null)
+            flag = true;
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -116,6 +122,13 @@ public class Dashboard extends AppCompatActivity {
             finish();
             return;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menudash, menu);
+        return true;
     }
 
     @Override
@@ -220,7 +233,7 @@ public class Dashboard extends AppCompatActivity {
                     String readMessage =(String) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
-
+                    Log.e("rec", readMessage);
                     if(to_store.split(",").length>13){
                         to_store="";
                         break;
@@ -288,4 +301,25 @@ public class Dashboard extends AppCompatActivity {
     public void discoverable(View v) {
         ensureDiscoverable();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent serverIntent;
+        switch (item.getItemId()){
+            case R.id.action_connect:
+                if (!flag) {
+                    serverIntent = new Intent(this, DeviceList.class);
+                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                }
+                else {
+                    super.onBackPressed();
+                }
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
+

@@ -67,14 +67,12 @@ public class SensorListAdapter extends RecyclerView.Adapter<SensorListAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Value=itemView.findViewById(R.id.tValue);
+            Value=itemView.findViewById(R.id.value);
             SensorHeading=itemView.findViewById(R.id.tSensorHead);
-            Attribute=itemView.findViewById(R.id.tAttribute);
+            Attribute=itemView.findViewById(R.id.valueName);
             bSet= itemView.findViewById(R.id.bSet);
             MinValue=itemView.findViewById(R.id.eMinValue);
             MaxValue=itemView.findViewById(R.id.eMaxValue);
-
-
         }
     }
 }

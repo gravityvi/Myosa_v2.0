@@ -1,73 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/topParent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BCC3C7"
     tools:context="com.example.ravi.mayosa.Dashboard">
 
-
-
-    <RelativeLayout
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/SensorsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
-
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:id="@+id/TopLayout"
-            android:background="#00749F"
-            android:layout_height="60dp">
-
-            <TextView
-                android:id="@+id/tDashboard"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/tdashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/bBluetooth"
-                android:scaleY="0.7"
-                android:scaleX="0.5"
-                android:background="@drawable/bbluetoth"
-                android:layout_alignParentRight="true"
-                android:onClick="connect"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </RelativeLayout>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/SensorsView"
-            android:layout_width="match_parent"
-            android:layout_below="@id/TopLayout"
-            android:layout_height="match_parent"
-            >
-
-        </android.support.v7.widget.RecyclerView>
-    </RelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fbStore"
-        android:layout_margin="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_marginRight="10dp"
-        app:elevation="10dp"
-        android:layout_height="wrap_content"
-        android:foreground="@drawable/store_button"
-
-        ></android.support.design.widget.FloatingActionButton>
-
-</RelativeLayout>
+</LinearLayout>
