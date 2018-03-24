@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.Set;
 
+import com.example.ravi.mayosa.Dashboard;
 import com.example.ravi.mayosa.R;
 
 public class DeviceList extends Activity {
@@ -98,6 +99,13 @@ public class DeviceList extends Activity {
         this.unregisterReceiver(mReceiver);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(DeviceList.this,Dashboard.class);
+        i.putExtra("Check","Check");
+        startActivity(i);
+    }
+
     /**
      * Start device discover with the BluetoothAdapter
      */
@@ -128,7 +136,7 @@ public class DeviceList extends Activity {
             intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
             // Set result and finish this Activity
             setResult(Activity.RESULT_OK, intent);
-            finish();
+            DeviceList.this.finish();
         }
     };
 

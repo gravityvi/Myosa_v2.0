@@ -1,117 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="180dp"
 
-    android:layout_margin="5dp"
-    android:elevation="10dp"
-    android:background="@drawable/shape_sensor_row">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="280dp"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
 
+
+    <TextView
+        android:id="@+id/tSensorHead"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/newdark"
+        android:text="@string/sensor_name"
+        android:textAlignment="center"
+        android:textColor="@color/wi"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:paddingTop="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tAttribute"
+            android:textColor="@color/bla"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Value name"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tValue"
+            android:textColor="@color/bla"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Value"
+            android:layout_gravity="start"
+            android:textAlignment="textStart"
+            android:layout_weight="1"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/lineChart"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="5">
 
 
         <LinearLayout
-            android:id="@+id/lSensorHeading"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/shape_sensor_head">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
             <TextView
-                android:layout_marginLeft="5dp"
-                android:id="@+id/tSensorHead"
-                android:textColor="#51A3D0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sesnor 1"
 
-                />
+                android:text="Min:"
+                android:textColor="@color/bla"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eMinValue"
+                android:hint="Min Value"
+                android:textColor="@color/bla"
+                android:textSize="14dp"/>
+
         </LinearLayout>
 
 
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_below="@id/lSensorHeading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max:"
+                android:textColor="@color/bla"/>
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/Chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.github.mikephil.charting.charts.LineChart>
-
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/tAttribute"
-                        android:layout_margin="5dp"
-                        android:textColor="#000"
-                        android:textSize="20dp"
-                        android:text="Value 1:"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/tValue"
-                        android:layout_margin="5dp"
-                        android:textSize="20dp"
-                        android:text="104"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-
-
-                <EditText
-
-                    android:id="@+id/eMinValue"
-                    android:hint="Min Value"
-                    android:textSize="14dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <EditText
-                    android:id="@+id/eMaxValue"
-                    android:hint="Max Value"
-                    android:textSize="14dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Button
-
-                    android:id="@+id/bSet"
-                    android:scaleY="0.7"
-                    android:layout_gravity="end"
-                    android:background="@drawable/bset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-            </LinearLayout>
-
+            <EditText
+                android:id="@+id/eMaxValue"
+                android:hint="Max Value"
+                android:textSize="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bla"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+            <Button
+                android:id="@+id/bSet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set"
+                android:layout_gravity="end"
+                android:textColor="#ffffffff"
+                android:theme="@style/MyButton" />
 
+        </LinearLayout>
+    </LinearLayout>
 
-
-</RelativeLayout>
+</LinearLayout>
