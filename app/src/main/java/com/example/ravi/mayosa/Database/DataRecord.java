@@ -1,7 +1,7 @@
 package com.example.ravi.mayosa.Database;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Pratik on 26-02-2018.
@@ -24,11 +24,11 @@ public class DataRecord {
     private String magnY;
     private String magnZ;
 
-
     public DataRecord(String to_store){
         to_store = to_store.trim();
         String s[] = to_store.split(",");
-        time="0";
+        Date currentTime = Calendar.getInstance().getTime();
+        time=currentTime.toString();
         temp = s[0];
         press_mmhg=s[1];
         press_mbar=s[2];

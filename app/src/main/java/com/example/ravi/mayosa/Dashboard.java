@@ -1,8 +1,10 @@
 package com.example.ravi.mayosa;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -68,10 +70,6 @@ public class Dashboard extends AppCompatActivity {
 
     // Member object for the chat services
     private BluetoothComService mChatService = null;
-
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private LinearLayoutManager linearLayoutManager;
     public int counter = 0;
     private int first_entry=0;
 
@@ -90,28 +88,12 @@ public class Dashboard extends AppCompatActivity {
             return;
         }
 
-
         setContentView(R.layout.activity_dashboard);
 
         SensorsView=(RecyclerView)findViewById(R.id.SensorsView);
         SensorList=new ArrayList<SensorObject>();
-        sensorListAdapter=new SensorListAdapter(this,SensorList,valueSeque.getValueRecord());
+        sensorListAdapter=new SensorListAdapter(this,SensorList, valueSeque.getValueRecord());
         SensorsView.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-
-        //after putting all the values in array list set the recycler view adapter
-
-//       button = (Button) findViewById(R.id.bBluetooth);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent serverIntent = new Intent(this, DeviceList.class);
-//                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-//            }
-//        });
-
 
         for(int i=0;i<=10;i++)
         {
@@ -120,8 +102,6 @@ public class Dashboard extends AppCompatActivity {
             sensorObject.setSensorHead("Sensor "+i);
             SensorList.add(sensorObject);
         }
-
-
 
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
@@ -315,7 +295,34 @@ public class Dashboard extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to terminate this session?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNeutralButton("Save & Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert=builder.create();
+        alert.show();
+    }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Intent serverIntent;
@@ -323,31 +330,13 @@ public class Dashboard extends AppCompatActivity {
         switch (item.getItemId()){
 
             case R.id.action_connect:
-
-                if (!flag) {
-
-                    serverIntent = new Intent(this, DeviceList.class);
-
-                    startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-
-                }
-
-                else {
-
-                    super.onBackPressed();
-
-                }
-
+                serverIntent = new Intent(this, DeviceList.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                 return true;
-
             default:
-
                 // If we got here, the user's action was not recognized.
-
                 // Invoke the superclass to handle it.
-
                 return super.onOptionsItemSelected(item);
-
         }
 
     }
