@@ -338,9 +338,5 @@ public class Dashboard extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
-
     }
-
-
 }
-

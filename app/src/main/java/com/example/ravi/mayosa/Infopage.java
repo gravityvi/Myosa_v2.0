@@ -1,6 +1,7 @@
 package com.example.ravi.mayosa;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class Infopage extends AppCompatActivity {
 
