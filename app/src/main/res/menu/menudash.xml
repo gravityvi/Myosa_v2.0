@@ -4,9 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/db_save"
+        android:icon="@drawable/save"
+        android:title="@string/export_to_csv"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_connect"
         android:icon="@drawable/bbluetoth"
-        android:title="connect"
+        android:title="@string/bButton"
+        app:showAsAction="ifRoom" />
 
-        app:showAsAction="ifRoom"/>
+
 </menu>

@@ -89,8 +89,10 @@
     "user picks up a card, or it can move if a snackbar appears.\n"
     "On the layout level, design your app layout to minimize opportunities for interference. "
     "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-    "when a user tries to pick up one of cards.\n\n"
+    "when a user tries to pick up one of cards."
     </string>
+    <string name="Myosa_intro">MYOSA (Make Your Own Sensors Applications) is a plug-and-play, multipurpose, multisensor board for learning purpose. It is like a lego set with which students can play and learn about the sensors. More importantly, it equips the users ready-to-apply connections of sensors and the board so that the user doesn’t have to worry about wires and can directly jump on various innovative applications. Various blocks include different sensors and an OLED screen that displays the output The board also has a Bluetooth module through which the output data gets transferred to the MYOSA mobile application.</string>
+    <string name="homeapp">For easy and handy access to the sensors’ readings and data, the MYOSA Android application has been developed. The data observed on the OLED screen is uploaded to the application via Bluetooth module and updated continuously. Changing trends of the sensor readings can be studied using the graphs available on the application. Readings of the sensors, which are connected to the MYOSA board will be automatically displayed on the app.</string>
     <string name="title_paired_devices">Paired device</string>
     <string name="title_other_devices">Other device</string>
     <string name="button_scan">Scan</string>
@@ -111,8 +113,13 @@
     <string name="tab_text_1">Home</string>
     <string name="tab_text_2">Features</string>
     <string name="tab_text_3">How to Use</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-
+    <string name="bButton">Find Device</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="export_to_csv">Export to CSV</string>
+    <string name="myosa">MYOSA</string>
+    <string name="themobileapp">The Mobile Application:</string>
+    <string name="homepack">Packaging:</string>
+    <string name="homemoti">Motivation:</string>
+    <string name="motivatontext">Learning is always fruitful when one experiments. The curriculum of pre-university students does not include sensors. So far it might have been thought too early for them to introduce it. If they are asked to build a sensor based application, these students might run away just from the sheer mess of soldering wires, coding, ordering the right sensors, etc. Also, with the advent of IoT and dream of Smart Cities, sensors have become an integral part of applications and research just like basic resistors and capacitors. With sensors gaining such an immense importance in ample of technological advancements, it is desirable for the pre-university students to get introduced to the world of sensors. Such introduction to sensors, at the pre-university stage would kindle a curiosity among the students to explore more and contribute in the future advancements. With a motivation to make this learning process playful, without any burden or complexity, we have designed and developed the MYOSA board. We also have developed some basic experiments around this board such that the students or programmers can use it without wasting their efforts and time behind basic sensor coding and operations. It gives a hands-on experience to the users and the suggested projects provoke thought process. One can also design one’s own circuits and applications using sensors.</string>
 </resources>
