@@ -6,15 +6,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
+import android.text.Html;
+import android.text.Layout;
 import android.view.KeyEvent;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,13 +23,21 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ravi.mayosa.Database.DataRecord;
 import com.example.ravi.mayosa.bluetooth_connectivity.BluetoothComService;
 import com.example.ravi.mayosa.bluetooth_connectivity.DeviceList;
-import com.example.ravi.mayosa.bluetooth_connectivity.Message;
+import com.github.mikephil.charting.data.LineRadarDataSet;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +45,6 @@ import java.util.List;
 public class Dashboard extends AppCompatActivity {
 
     private static RecyclerView SensorsView;
-    private static ArrayList<SensorObject> SensorList;
-    private static SensorListAdapter sensorListAdapter;
-    private static Button button;
-    private static boolean flag=false;
 
     // Message types sent from the BluetoothComService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -49,7 +54,6 @@ public class Dashboard extends AppCompatActivity {
     public static final int MESSAGE_TOAST = 5;
     private String to_store = "";
 
-
     // Key names received from the BluetoothComService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
@@ -57,9 +61,8 @@ public class Dashboard extends AppCompatActivity {
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    private EditText mOutEditText;
-    private Button mSendButton;
 
+    private RecyclerView.LayoutManager lm;
     // Name of the connected device
     private String mConnectedDeviceName = null;
     // String buffer for outgoing messages
@@ -72,12 +75,14 @@ public class Dashboard extends AppCompatActivity {
     private BluetoothComService mChatService = null;
     public int counter = 0;
     private int first_entry=0;
-
-    private List<Message> messageList = new ArrayList<com.example.ravi.mayosa.bluetooth_connectivity.Message>();
+    View[] view = new View[18];
+    GraphView[] graphViews = new GraphView[18];
+    LineGraphSeries[] lineGraphSeries = new LineGraphSeries[26];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
 
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -88,34 +93,93 @@ public class Dashboard extends AppCompatActivity {
             return;
         }
 
-        setContentView(R.layout.activity_dashboard);
-
-        SensorsView=(RecyclerView)findViewById(R.id.SensorsView);
-        SensorList=new ArrayList<SensorObject>();
-        sensorListAdapter=new SensorListAdapter(this,SensorList, valueSeque.getValueRecord());
-        SensorsView.setLayoutManager(new LinearLayoutManager(this));
-
-        for(int i=0;i<=10;i++)
-        {
-            SensorObject sensorObject=new SensorObject();
-            sensorObject.setAttribute("Attr "+i);
-            sensorObject.setSensorHead("Sensor "+i);
-            SensorList.add(sensorObject);
-        }
-
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
+
+        TextView attr;
+
+        view[0] = findViewById(R.id.sValue1); attr = view[0].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[0].findViewById(R.id.tAttribute);attr.setText("Visibility (Raw Data)");
+
+        view[1] = findViewById(R.id.sValue2); attr = view[1].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[1].findViewById(R.id.tAttribute); attr.setText("Infrared (Raw Data)");
+
+        view[2] = findViewById(R.id.sValue3); attr = view[2].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[2].findViewById(R.id.tAttribute); attr.setText("Illuminace (LUX)");
+
+        view[3] = findViewById(R.id.sValue4); attr = view[3].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[3].findViewById(R.id.tAttribute); attr.setText("Pressure (mbar)");
+
+        view[4] = findViewById(R.id.sValue5); attr = view[4].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[4].findViewById(R.id.tAttribute); attr.setText("Pressure (mmHg)");
+
+        view[5] = findViewById(R.id.sValue6); attr = view[5].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[5].findViewById(R.id.tAttribute); attr.setText("Pressure (Meter)");
+
+        view[6] = findViewById(R.id.sValue7); attr = view[6].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[6].findViewById(R.id.tAttribute); attr.setText("CO2 (ppm)");
+
+        view[7] = findViewById(R.id.sValue8); attr = view[7].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[7].findViewById(R.id.tAttribute); attr.setText("TVOC (ppb)");
+
+        view[8] = findViewById(R.id.sValue9); attr = view[8].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[8].findViewById(R.id.tAttribute); attr.setText("Heart Rate(BPM)");
+
+        view[9] = findViewById(R.id.sValue10); attr = view[9].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[9].findViewById(R.id.tAttribute); attr.setText("Avg Heart Rate(BPM)");
+
+        view[10] = findViewById(R.id.sValue11); attr = view[10].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[10].findViewById(R.id.tAttribute); attr.setText("Onxygenatede Blood (%)");
+
+        view[11] = findViewById(R.id.sValue12); attr = view[11].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[11].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0C)");
+
+        view[12] = findViewById(R.id.sValue13); attr = view[12].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[12].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0F)");
+
+        view[13] = findViewById(R.id.sValue14); attr = view[13].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[13].findViewById(R.id.tAttribute); attr.setText("Humidity (%)");
+
+        view[14] = findViewById(R.id.sValue15); attr = view[14].findViewById(R.id.tSensorHead); attr.setText("Magnetometer"); attr = view[14].findViewById(R.id.tAttribute1); attr.setText("X (mgauss)"); attr = view[14].findViewById(R.id.tAttribute2); attr.setText("Y (mgauss)"); attr = view[14].findViewById(R.id.tAttribute3); attr.setText("Z (mgauss)");
+
+        view[15] = findViewById(R.id.sValue16); attr = view[15].findViewById(R.id.tSensorHead); attr.setText("RGB Sensor"); attr = view[15].findViewById(R.id.tAttribute1); attr.setText("Red (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute2); attr.setText("Green (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute3); attr.setText("Bule (Raw Data)");
+
+        view[16] = findViewById(R.id.sValue17); attr = view[16].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[16].findViewById(R.id.tAttribute1); attr.setText("X (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute2); attr.setText("Y (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute3); attr.setText("Z (\u00B0 degree)");
+
+        view[17] = findViewById(R.id.sValue18); attr = view[17].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[17].findViewById(R.id.tAttribute1); attr.setText("acc. in X (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute2); attr.setText("acc. in Y (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute3); attr.setText("acc. in Z (m/sec square)");
+
+        Viewport viewport;
+        for(int i=0;i<18;i++){
+            graphViews[i]=view[i].findViewById(R.id.graph);
+            viewport = graphViews[i].getViewport();
+            viewport.setXAxisBoundsManual(true);
+            viewport.setMaxX(30);
+            viewport.setMinX(0);
+            graphViews[i].getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graphViews[i].getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+            graphViews[i].getGridLabelRenderer().setTextSize(25);
+        }
+
+        for(int i=0;i<26;i++){
+            lineGraphSeries[i] = new LineGraphSeries();
+        }
+
+        for(int i=0;i<14;i++){
+            lineGraphSeries[i].setColor(R.color.colorAccent);
+        }
+
+        lineGraphSeries[17].setColor(R.color.red);
+        lineGraphSeries[18].setColor(R.color.green);
+        lineGraphSeries[19].setColor(R.color.blue);
+
+        for(int i=0;i<14;i++){
+            graphViews[i].addSeries(lineGraphSeries[i]);
+        }
+
+        int last=14;
+        for(int j=14;j<18;j++){
+            for(int i=0;i<3;i++) {
+                graphViews[j].addSeries(lineGraphSeries[last]);
+                last++;
+            }
+        }
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menudash, menu);
-            return true;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menudash, menu);
+        return true;
     }
 
     @Override
@@ -140,10 +204,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void setupChat() {
-        // Initialize the BluetoothComService to perform bluetooth connections
         mChatService = new BluetoothComService(this, mHandler);
-
-        // Initialize the buffer for outgoing messages
         mOutStringBuffer = new StringBuffer("");
     }
 
@@ -166,8 +227,8 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void ensureDiscoverable() {
-        if (mBluetoothAdapter.getScanMode() !=
-                BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+
+        if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivity(discoverableIntent);
@@ -188,23 +249,8 @@ public class Dashboard extends AppCompatActivity {
             byte[] send = message.getBytes();
             mChatService.write(send);
             // Reset out string buffer to zero and clear the edit text field
-            mOutStringBuffer.setLength(0);
-            mOutEditText.setText(mOutStringBuffer);
         }
     }
-
-    // The action listener for the EditText widget, to listen for the return key
-    private TextView.OnEditorActionListener mWriteListener =
-            new TextView.OnEditorActionListener() {
-                public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                    // If the action is a key-up event on the return key, send the message
-                    if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
-                        String message = view.getText().toString();
-                        sendMessage(message);
-                    }
-                    return true;
-                }
-            };
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -214,14 +260,13 @@ public class Dashboard extends AppCompatActivity {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    messageList.add(new com.example.ravi.mayosa.bluetooth_connectivity.Message(counter++, writeMessage, "Me"));
                     break;
                 case MESSAGE_READ:
                     String readMessage =(String) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
 
-                    if(to_store.split(",").length>13){
+                    if(to_store.split(",").length>6){
                         to_store="";
                         break;
                     }
@@ -233,18 +278,11 @@ public class Dashboard extends AppCompatActivity {
                         to_store = readMessage;
                     }
 
-
-                    if ((to_store.split(",").length==13)){
-                        DataRecord tempRec = new DataRecord(to_store);
+                    if ((to_store.split(",").length==6)){
                         to_store=to_store.trim();
                         String s[]=to_store.split(",");
-                        valueSeque.addRecord(tempRec,s);
-                        if(first_entry==0)
-                        {
-                            SensorsView.setAdapter(sensorListAdapter);
-                        }
+                        valueSeque.addRecord(s);
                         first_entry=1;
-                        sensorListAdapter.notifyDataSetChanged();
                         to_store = "";
                     }
 
@@ -252,7 +290,6 @@ public class Dashboard extends AppCompatActivity {
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-
                     Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_TOAST:
@@ -266,32 +303,25 @@ public class Dashboard extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE:
-                // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
-                    // Get the device MAC address
                     String address = data.getExtras().getString(DeviceList.EXTRA_DEVICE_ADDRESS);
-                    // Get the BLuetoothDevice object
                     BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-                    // Attempt to connect to the device
                     mChatService.connect(device);
                 }
                 break;
+
             case REQUEST_ENABLE_BT:
-                // When the request to enable Bluetooth returns
                 if (resultCode == Activity.RESULT_OK) {
-                    // Bluetooth is now enabled, so set up a chat session
                     setupChat();
                 } else {
-                    // User did not enable Bluetooth or an error occured
                     Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
                     finish();
                 }
         }
     }
 
-    public void discoverable(View v) {
+    public void discoverable() {
         ensureDiscoverable();
-
     }
 
     @Override
@@ -314,7 +344,6 @@ public class Dashboard extends AppCompatActivity {
         builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //if user select "No", just cancel this dialog and continue with app
                 dialog.cancel();
             }
         });
@@ -324,11 +353,9 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         Intent serverIntent;
 
         switch (item.getItemId()){
-
             case R.id.action_connect:
                 serverIntent = new Intent(this, DeviceList.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);

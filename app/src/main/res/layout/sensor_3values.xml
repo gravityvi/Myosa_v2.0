@@ -34,27 +34,77 @@
             android:textSize="18sp" />
 
         <LinearLayout
-            android:paddingTop="5dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/tAttribute"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/tAttribute1"
                 android:textColor="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:text="Value"
                 android:textAlignment="center"
                 android:layout_weight="1"
-                android:textSize="16sp"
-                android:gravity="start" />
+                android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tValue"
+                android:id="@+id/tValue1"
                 android:textColor="@color/myapp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Value"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:weightSum="2">
+            <TextView
+                android:id="@+id/tAttribute2"
+                android:textColor="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Value"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tValue2"
+                android:textColor="@color/myapp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Value"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:weightSum="2">
+            <TextView
+                android:id="@+id/tAttribute3"
+                android:textColor="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Value"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tValue3"
+                android:textColor="@color/myapp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:text="Value"
                 android:textAlignment="center"
@@ -65,12 +115,8 @@
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="170dp" />
-
     </LinearLayout>
+
 </android.support.v7.widget.CardView>

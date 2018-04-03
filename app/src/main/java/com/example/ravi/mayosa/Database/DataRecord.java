@@ -24,9 +24,7 @@ public class DataRecord {
     private String magnY;
     private String magnZ;
 
-    public DataRecord(String to_store){
-        to_store = to_store.trim();
-        String s[] = to_store.split(",");
+    public DataRecord(String[] s){
         Date currentTime = Calendar.getInstance().getTime();
         time=currentTime.toString();
         temp = s[0];
@@ -42,24 +40,6 @@ public class DataRecord {
         magnX = s[10];
         magnY = s[11];
         magnZ = s[12];
-    }
-
-    public DataRecord (long id, String time, String press_mmhg, String press_mbar, String humidity, String lux, String infrared, String visibility,
-                       String gyroX, String gyroY, String gyroZ, String magnX, String magnY, String magnZ){
-        this.id = id;
-        this.time=time;
-        this.press_mmhg=press_mmhg;
-        this.press_mbar=press_mbar;
-        this.humidity=humidity;
-        this.lux=lux;
-        this.infrared=infrared;
-        this.visibility=visibility;
-        this.gyroX=gyroX;
-        this.gyroY=gyroY;
-        this.gyroZ=gyroZ;
-        this.magnX=magnX;
-        this.magnY=magnY;
-        this.magnZ=magnZ;
     }
 
     public long getId() {

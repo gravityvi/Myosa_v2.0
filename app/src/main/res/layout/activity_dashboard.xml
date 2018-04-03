@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ravi.mayosa.Dashboard">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/SensorsView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--Lumi-->
+        <include android:id="@+id/sValue1" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue2" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue3" layout="@layout/sensor_row"/>
+        <!--pressure-->
+        <include android:id="@+id/sValue4" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue5" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue6" layout="@layout/sensor_row"/>
+        <!--AQ sensor-->
+        <include android:id="@+id/sValue7" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue8" layout="@layout/sensor_row"/>
+        <!--Particle Sensor-->
+        <include android:id="@+id/sValue9" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue10" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue11" layout="@layout/sensor_row"/>
 
+        <!--temp humi-->
+        <include android:id="@+id/sValue12" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue13" layout="@layout/sensor_row"/>
+        <include android:id="@+id/sValue14" layout="@layout/sensor_row"/>
 
-</LinearLayout>
+        <!--Magnetometer-->
+        <include android:id="@+id/sValue15" layout="@layout/sensor_3values"/>
+
+        <!--RGB-->
+        <include android:id="@+id/sValue16" layout="@layout/sensor_3values"/>
+        <!--MPU-->
+        <include android:id="@+id/sValue17" layout="@layout/sensor_3values"/>
+        <include android:id="@+id/sValue18" layout="@layout/sensor_3values"/>
+
+    </LinearLayout>
+</ScrollView>
