@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ravi.mayosa.Database.DataRecord;
+import com.example.ravi.mayosa.Database.DatabaseHelper;
 import com.example.ravi.mayosa.bluetooth_connectivity.BluetoothComService;
 import com.example.ravi.mayosa.bluetooth_connectivity.DeviceList;
 import com.github.mikephil.charting.data.LineRadarDataSet;
@@ -53,6 +54,8 @@ public class Dashboard extends AppCompatActivity {
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
     private String to_store = "";
+    private static String[] SensorNames;
+    private static DatabaseHelper databaseHelper;
 
     // Key names received from the BluetoothComService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -84,6 +87,9 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        /********Initailize all the sensors Names******/
+
+        databaseHelper=new DatabaseHelper(this,SensorNames);
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -284,6 +290,8 @@ public class Dashboard extends AppCompatActivity {
                         valueSeque.addRecord(s);
                         first_entry=1;
                         to_store = "";
+                        databaseHelper.InsertData(s);
+
                     }
 
                     break;
@@ -332,12 +340,14 @@ public class Dashboard extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //databaseHelper.onUpgrade();
                 finish();
             }
         });
         builder.setNeutralButton("Save & Exit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                databaseHelper.Export();
                 finish();
             }
         });
