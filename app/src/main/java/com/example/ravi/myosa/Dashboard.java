@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa;
+package com.example.ravi.myosa;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,9 +21,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ravi.mayosa.Database.DatabaseHelper;
-import com.example.ravi.mayosa.bluetooth_connectivity.BluetoothComService;
-import com.example.ravi.mayosa.bluetooth_connectivity.DeviceList;
+import com.example.ravi.myosa.Database.DatabaseHelper;
+import com.example.ravi.myosa.bluetooth_connectivity.BluetoothComService;
+import com.example.ravi.myosa.bluetooth_connectivity.DeviceList;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;

@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa.Database;
+package com.example.ravi.myosa.Database;
 
 import android.content.ContentValues;
 import android.content.Context;

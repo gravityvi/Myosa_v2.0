@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa;
+package com.example.ravi.myosa;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,8 +1,8 @@
-package com.example.ravi.mayosa;
+package com.example.ravi.myosa;
 
 import android.util.Log;
 
-import com.example.ravi.mayosa.Database.DataRecord;
+import com.example.ravi.myosa.Database.DataRecord;
 import java.util.ArrayList;
 
 /**

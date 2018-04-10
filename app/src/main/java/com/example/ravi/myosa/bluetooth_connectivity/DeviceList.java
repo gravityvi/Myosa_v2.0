@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa.bluetooth_connectivity;
+package com.example.ravi.myosa.bluetooth_connectivity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,8 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.Set;
 
-import com.example.ravi.mayosa.Dashboard;
-import com.example.ravi.mayosa.R;
+import com.example.ravi.myosa.Dashboard;
+import com.example.ravi.myosa.R;
 
 public class DeviceList extends AppCompatActivity {
 

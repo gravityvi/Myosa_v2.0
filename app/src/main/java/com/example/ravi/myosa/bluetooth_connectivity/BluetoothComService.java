@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa.bluetooth_connectivity;
+package com.example.ravi.myosa.bluetooth_connectivity;
 
 /**
  * Created by Pratik on 14-02-2018.
@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.ravi.mayosa.Dashboard;
+import com.example.ravi.myosa.Dashboard;
 
 import java.io.BufferedReader;
 import java.io.IOException;

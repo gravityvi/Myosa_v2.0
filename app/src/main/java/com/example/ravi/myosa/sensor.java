@@ -1,4 +1,4 @@
-package com.example.ravi.mayosa;
+package com.example.ravi.myosa;
 
 /**
  * Created by Pratik on 04-04-2018.
