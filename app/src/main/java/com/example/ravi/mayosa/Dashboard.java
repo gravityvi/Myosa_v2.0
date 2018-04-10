@@ -12,43 +12,31 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import android.text.Html;
-import android.text.Layout;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ravi.mayosa.Database.DataRecord;
 import com.example.ravi.mayosa.Database.DatabaseHelper;
 import com.example.ravi.mayosa.bluetooth_connectivity.BluetoothComService;
 import com.example.ravi.mayosa.bluetooth_connectivity.DeviceList;
-import com.github.mikephil.charting.data.LineRadarDataSet;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
 public class Dashboard extends AppCompatActivity {
-
-    private static RecyclerView SensorsView;
 
     // Message types sent from the BluetoothComService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -71,28 +59,29 @@ public class Dashboard extends AppCompatActivity {
     private RecyclerView.LayoutManager lm;
     // Name of the connected device
     private String mConnectedDeviceName = null;
-    // String buffer for outgoing messages
-    private StringBuffer mOutStringBuffer;
-
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
 
     // Member object for the chat services
     private BluetoothComService mChatService = null;
-    public int counter = 0;
-    private int first_entry=0;
     View[] view = new View[18];
-    GraphView[] graphViews = new GraphView[18];
-    LineGraphSeries[] lineGraphSeries = new LineGraphSeries[26];
+    GraphView[] graphViews;
+    LineGraphSeries[] lineGraphSeries;
+    private boolean visi[];
+    private float x=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        /********Initailize all the sensors Names******/
-
-        databaseHelper=new DatabaseHelper(this,SensorNames);
+        graphViews = new GraphView[18];
+        lineGraphSeries = new LineGraphSeries[26];
+        visi = new boolean[18];
+        for(int i=0;i<18;i++){
+            visi[i]=false;
+        }
+      databaseHelper=new DatabaseHelper(this,SensorNames); 
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -107,81 +96,7 @@ public class Dashboard extends AppCompatActivity {
             finish();
             return;
         }
-
-        TextView attr;
-
-        view[0] = findViewById(R.id.sValue1); attr = view[0].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[0].findViewById(R.id.tAttribute);attr.setText("Visibility (Raw Data)");
-
-        view[1] = findViewById(R.id.sValue2); attr = view[1].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[1].findViewById(R.id.tAttribute); attr.setText("Infrared (Raw Data)");
-
-        view[2] = findViewById(R.id.sValue3); attr = view[2].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[2].findViewById(R.id.tAttribute); attr.setText("Illuminace (LUX)");
-
-        view[3] = findViewById(R.id.sValue4); attr = view[3].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[3].findViewById(R.id.tAttribute); attr.setText("Pressure (mbar)");
-
-        view[4] = findViewById(R.id.sValue5); attr = view[4].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[4].findViewById(R.id.tAttribute); attr.setText("Pressure (mmHg)");
-
-        view[5] = findViewById(R.id.sValue6); attr = view[5].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[5].findViewById(R.id.tAttribute); attr.setText("Pressure (Meter)");
-
-        view[6] = findViewById(R.id.sValue7); attr = view[6].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[6].findViewById(R.id.tAttribute); attr.setText("CO2 (ppm)");
-
-        view[7] = findViewById(R.id.sValue8); attr = view[7].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[7].findViewById(R.id.tAttribute); attr.setText("TVOC (ppb)");
-
-        view[8] = findViewById(R.id.sValue9); attr = view[8].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[8].findViewById(R.id.tAttribute); attr.setText("Heart Rate(BPM)");
-
-        view[9] = findViewById(R.id.sValue10); attr = view[9].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[9].findViewById(R.id.tAttribute); attr.setText("Avg Heart Rate(BPM)");
-
-        view[10] = findViewById(R.id.sValue11); attr = view[10].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[10].findViewById(R.id.tAttribute); attr.setText("Onxygenatede Blood (%)");
-
-        view[11] = findViewById(R.id.sValue12); attr = view[11].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[11].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0C)");
-
-        view[12] = findViewById(R.id.sValue13); attr = view[12].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[12].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0F)");
-
-        view[13] = findViewById(R.id.sValue14); attr = view[13].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[13].findViewById(R.id.tAttribute); attr.setText("Humidity (%)");
-
-        view[14] = findViewById(R.id.sValue15); attr = view[14].findViewById(R.id.tSensorHead); attr.setText("Magnetometer"); attr = view[14].findViewById(R.id.tAttribute1); attr.setText("X (mgauss)"); attr = view[14].findViewById(R.id.tAttribute2); attr.setText("Y (mgauss)"); attr = view[14].findViewById(R.id.tAttribute3); attr.setText("Z (mgauss)");
-
-        view[15] = findViewById(R.id.sValue16); attr = view[15].findViewById(R.id.tSensorHead); attr.setText("RGB Sensor"); attr = view[15].findViewById(R.id.tAttribute1); attr.setText("Red (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute2); attr.setText("Green (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute3); attr.setText("Bule (Raw Data)");
-
-        view[16] = findViewById(R.id.sValue17); attr = view[16].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[16].findViewById(R.id.tAttribute1); attr.setText("X (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute2); attr.setText("Y (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute3); attr.setText("Z (\u00B0 degree)");
-
-        view[17] = findViewById(R.id.sValue18); attr = view[17].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[17].findViewById(R.id.tAttribute1); attr.setText("acc. in X (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute2); attr.setText("acc. in Y (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute3); attr.setText("acc. in Z (m/sec square)");
-
-        Viewport viewport;
-        for(int i=0;i<18;i++){
-            graphViews[i]=view[i].findViewById(R.id.graph);
-            viewport = graphViews[i].getViewport();
-            viewport.setXAxisBoundsManual(true);
-            viewport.setMaxX(30);
-            viewport.setMinX(0);
-            graphViews[i].getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            graphViews[i].getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
-            graphViews[i].getGridLabelRenderer().setTextSize(25);
-        }
-
-        for(int i=0;i<26;i++){
-            lineGraphSeries[i] = new LineGraphSeries();
-        }
-
-        for(int i=0;i<14;i++){
-            lineGraphSeries[i].setColor(R.color.colorAccent);
-        }
-
-        lineGraphSeries[17].setColor(R.color.red);
-        lineGraphSeries[18].setColor(R.color.green);
-        lineGraphSeries[19].setColor(R.color.blue);
-
-        for(int i=0;i<14;i++){
-            graphViews[i].addSeries(lineGraphSeries[i]);
-        }
-
-        int last=14;
-        for(int j=14;j<18;j++){
-            for(int i=0;i<3;i++) {
-                graphViews[j].addSeries(lineGraphSeries[last]);
-                last++;
-            }
-        }
-
+        initViews();
     }
 
     @Override
@@ -214,13 +129,11 @@ public class Dashboard extends AppCompatActivity {
 
     private void setupChat() {
         mChatService = new BluetoothComService(this, mHandler);
-        mOutStringBuffer = new StringBuffer("");
     }
 
     @Override
     public synchronized void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -275,7 +188,7 @@ public class Dashboard extends AppCompatActivity {
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
 
-                    if(to_store.split(",").length>6){
+                    if(to_store.split(",").length>26){
                         to_store="";
                         break;
                     }
@@ -287,14 +200,14 @@ public class Dashboard extends AppCompatActivity {
                         to_store = readMessage;
                     }
 
-                    if ((to_store.split(",").length==6)){
+                    if ((to_store.split(",").length==26)){
                         to_store=to_store.trim();
                         String s[]=to_store.split(",");
-                        valueSeque.addRecord(s);
-                        first_entry=1;
                         to_store = "";
+                        Log.e("msg","rcvd"+s.length);
+                        addData(s);
+                        valueSeque.addRecord(s);
                         databaseHelper.InsertData(s);
-
                     }
 
                     break;
@@ -382,9 +295,157 @@ public class Dashboard extends AppCompatActivity {
                 fragmentTransaction.add(eventManagement,"eventmanagement").addToBackStack("null").commit();
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    void addData(String[] s){
+        Log.e("Graph","data added");
+        for(int i=0;i<14;i++){
+            if(!s[i].equals("*")){
+                if(visi[i]==false){
+                    view[i].setVisibility(View.VISIBLE);
+                    visi[i]=true;
+                }
+                lineGraphSeries[i].appendData(new DataPoint(x,Integer.parseInt(s[i])),true,35);
+                ((TextView)view[i].findViewById(R.id.tValue)).setText(s[i]);
+            }
+            else if(s[i].equals("*")){
+                if(visi[i]==true){
+                    view[i].setVisibility(View.GONE);
+                    visi[i]=false;
+                }
+            }
+        }
+
+        int last=14;
+        for(int j=14;j<18;j++){
+            for(int i=0;i<3;i++) {
+                if(s[last].equals("*")){
+                    if(visi[j]==true){
+                        view[j].setVisibility(View.GONE);
+                        visi[j]=false;
+                    }
+                }
+                else {
+                    if (visi[j] == false) {
+                        view[j].setVisibility(View.VISIBLE);
+                        visi[j] = true;
+                    }
+                    lineGraphSeries[last].appendData(new DataPoint(x, Integer.parseInt(s[last])), true, 35);
+                    if(i==0)
+                        ((TextView)view[j].findViewById(R.id.tValue1)).setText(s[last]);
+                    else if(i==1)
+                        ((TextView)view[j].findViewById(R.id.tValue2)).setText(s[last]);
+                    else
+                        ((TextView)view[j].findViewById(R.id.tValue3)).setText(s[last]);
+                }
+                last++;
+            }
+        }
+
+
+        x++;
+    }
+
+    void initViews(){
+        Log.e("Graph","init");
+        TextView attr;
+
+        view[0] = findViewById(R.id.sValue1);
+        attr = view[0].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[0].findViewById(R.id.tAttribute);attr.setText("Visibility (Raw Data)");
+
+        view[1] = findViewById(R.id.sValue2); attr = view[1].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[1].findViewById(R.id.tAttribute); attr.setText("Infrared (Raw Data)");
+
+        view[2] = findViewById(R.id.sValue3); attr = view[2].findViewById(R.id.tSensorHead); attr.setText("Luminosity Sensor"); attr = view[2].findViewById(R.id.tAttribute); attr.setText("Illuminace (LUX)");
+
+        view[3] = findViewById(R.id.sValue4); attr = view[3].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[3].findViewById(R.id.tAttribute); attr.setText("Pressure (mbar)");
+
+        view[4] = findViewById(R.id.sValue5); attr = view[4].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[4].findViewById(R.id.tAttribute); attr.setText("Pressure (mmHg)");
+
+        view[5] = findViewById(R.id.sValue6); attr = view[5].findViewById(R.id.tSensorHead); attr.setText("Barometric Sensor"); attr = view[5].findViewById(R.id.tAttribute); attr.setText("Pressure (Meter)");
+
+        view[6] = findViewById(R.id.sValue7); attr = view[6].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[6].findViewById(R.id.tAttribute); attr.setText("CO2 (ppm)");
+
+        view[7] = findViewById(R.id.sValue8); attr = view[7].findViewById(R.id.tSensorHead); attr.setText("Air Quality Sensor"); attr = view[7].findViewById(R.id.tAttribute); attr.setText("TVOC (ppb)");
+
+        view[8] = findViewById(R.id.sValue9); attr = view[8].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[8].findViewById(R.id.tAttribute); attr.setText("Heart Rate(BPM)");
+
+        view[9] = findViewById(R.id.sValue10); attr = view[9].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[9].findViewById(R.id.tAttribute); attr.setText("Avg Heart Rate(BPM)");
+
+        view[10] = findViewById(R.id.sValue11); attr = view[10].findViewById(R.id.tSensorHead); attr.setText("Particle Sensor"); attr = view[10].findViewById(R.id.tAttribute); attr.setText("Onxygenatede Blood (%)");
+
+        view[11] = findViewById(R.id.sValue12); attr = view[11].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[11].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0C)");
+
+        view[12] = findViewById(R.id.sValue13); attr = view[12].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[12].findViewById(R.id.tAttribute); attr.setText("Temperature (\u00B0F)");
+
+        view[13] = findViewById(R.id.sValue14); attr = view[13].findViewById(R.id.tSensorHead); attr.setText("Temperature & Humidity Sensor"); attr = view[13].findViewById(R.id.tAttribute); attr.setText("Humidity (%)");
+
+        view[14] = findViewById(R.id.sValue15); attr = view[14].findViewById(R.id.tSensorHead); attr.setText("Magnetometer"); attr = view[14].findViewById(R.id.tAttribute1); attr.setText("X (mgauss)"); attr = view[14].findViewById(R.id.tAttribute2); attr.setText("Y (mgauss)"); attr = view[14].findViewById(R.id.tAttribute3); attr.setText("Z (mgauss)");
+
+        view[15] = findViewById(R.id.sValue16); attr = view[15].findViewById(R.id.tSensorHead); attr.setText("RGB Sensor"); attr = view[15].findViewById(R.id.tAttribute1); attr.setText("Red (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute2); attr.setText("Green (Raw Data)"); attr = view[15].findViewById(R.id.tAttribute3); attr.setText("Bule (Raw Data)");
+
+        view[16] = findViewById(R.id.sValue17); attr = view[16].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[16].findViewById(R.id.tAttribute1); attr.setText("X (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute2); attr.setText("Y (\u00B0 degree)"); attr = view[16].findViewById(R.id.tAttribute3); attr.setText("Z (\u00B0 degree)");
+
+        view[17] = findViewById(R.id.sValue18); attr = view[17].findViewById(R.id.tSensorHead); attr.setText("Gyroscop"); attr = view[17].findViewById(R.id.tAttribute1); attr.setText("acc. in X (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute2); attr.setText("acc. in Y (m/sec square)"); attr = view[17].findViewById(R.id.tAttribute3); attr.setText("acc. in Z (m/sec square)");
+
+
+        Viewport viewport;
+        for(int i=0;i<18;i++){
+            graphViews[i]=view[i].findViewById(R.id.graph);
+            viewport = graphViews[i].getViewport();
+            viewport.setXAxisBoundsManual(true);
+            viewport.setMaxX(30);
+            viewport.setMinX(0);
+            graphViews[i].getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graphViews[i].getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+            graphViews[i].getGridLabelRenderer().setTextSize(25);
+        }
+
+        for(int i=14;i<18;i++){
+            graphViews[i].getLegendRenderer().setVisible(true);
+            graphViews[i].getLegendRenderer().setTextSize(25);
+            graphViews[i].getLegendRenderer().setBackgroundColor(Color.argb(150,50,0,0));
+            graphViews[i].getLegendRenderer().setTextColor(Color.WHITE);
+            graphViews[i].getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        }
+        for(int i=0;i<26;i++){
+            lineGraphSeries[i] = new LineGraphSeries();
+            lineGraphSeries[i].setDrawDataPoints(true);
+            lineGraphSeries[i].setDataPointsRadius(6);
+        }
+
+        for(int i=0;i<14;i++){
+            graphViews[i].addSeries(lineGraphSeries[i]);
+        }
+
+        for(int i=0;i<14;i++){
+            lineGraphSeries[i].setColor(Color.argb(255, 246,74,138));
+        }
+
+
+        lineGraphSeries[14].setColor(Color.argb(255,49,140,231)); lineGraphSeries[14].setTitle("X");
+        lineGraphSeries[15].setColor(Color.argb(255, 229, 43,80)); lineGraphSeries[15].setTitle("Y");
+        lineGraphSeries[16].setColor(Color.argb(255,102,255,0)); lineGraphSeries[16].setTitle("Z");
+
+        lineGraphSeries[20].setColor(Color.argb(255,49,140,231)); lineGraphSeries[20].setTitle("X");
+        lineGraphSeries[21].setColor(Color.argb(255, 229, 43,80)); lineGraphSeries[21].setTitle("Y");
+        lineGraphSeries[22].setColor(Color.argb(255,102,255,0)); lineGraphSeries[22].setTitle("Z");
+
+        lineGraphSeries[23].setColor(Color.argb(255,49,140,231)); lineGraphSeries[23].setTitle("X");
+        lineGraphSeries[24].setColor(Color.argb(255, 229, 43,80)); lineGraphSeries[24].setTitle("Y");
+        lineGraphSeries[25].setColor(Color.argb(255,102,255,0)); lineGraphSeries[25].setTitle("Z");
+
+        lineGraphSeries[17].setColor(Color.argb(255, 255, 0, 0)); lineGraphSeries[17].setTitle("Red");
+        lineGraphSeries[18].setColor(Color.argb(255, 0, 255, 0)); lineGraphSeries[18].setTitle("Green");
+        lineGraphSeries[19].setColor(Color.argb(255, 0, 0, 255)); lineGraphSeries[19].setTitle("Blue");
+
+        int last=14;
+        for(int j=14;j<18;j++){
+            for(int i=0;i<3;i++) {
+                graphViews[j].addSeries(lineGraphSeries[last]);
+                last++;
+            }
         }
     }
 }
