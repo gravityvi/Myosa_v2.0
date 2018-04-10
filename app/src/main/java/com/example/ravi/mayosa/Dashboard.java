@@ -38,6 +38,8 @@ public class Dashboard extends AppCompatActivity {
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
     private String to_store = "";
+    private static String[] SensorNames;
+    private static DatabaseHelper databaseHelper;
 
     // Key names received from the BluetoothComService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -72,6 +74,7 @@ public class Dashboard extends AppCompatActivity {
         for(int i=0;i<18;i++){
             visi[i]=false;
         }
+      databaseHelper=new DatabaseHelper(this,SensorNames); 
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -197,6 +200,7 @@ public class Dashboard extends AppCompatActivity {
                         Log.e("msg","rcvd"+s.length);
                         addData(s);
                         valueSeque.addRecord(s);
+                        databaseHelper.InsertData(s);
                     }
 
                     break;
@@ -245,12 +249,14 @@ public class Dashboard extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //databaseHelper.onUpgrade();
                 finish();
             }
         });
         builder.setNeutralButton("Save & Exit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                databaseHelper.Export();
                 finish();
             }
         });
