@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             public void onCompleted(String filePath) {
 
 
-                //System.out.println("hello\n");
+
 
             }
 

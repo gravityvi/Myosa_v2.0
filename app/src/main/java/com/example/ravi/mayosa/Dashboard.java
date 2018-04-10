@@ -2,12 +2,14 @@ package com.example.ravi.mayosa;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +43,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 public class Dashboard extends AppCompatActivity {
@@ -370,6 +373,14 @@ public class Dashboard extends AppCompatActivity {
                 serverIntent = new Intent(this, DeviceList.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
                 return true;
+
+            case R.id.cEvent:
+                android.support.v4.app.FragmentManager fragmentManager =getSupportFragmentManager();
+                EventManagement  eventManagement =new EventManagement();
+                FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.add(eventManagement,"eventmanagement").addToBackStack("null").commit();
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
