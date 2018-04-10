@@ -1,5 +1,6 @@
 package com.example.ravi.mayosa.bluetooth_connectivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -96,6 +98,8 @@ public class DeviceList extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         foundText.setVisibility(View.GONE);
         newDevicesListView.setOnItemClickListener(mDeviceClickListener);
+        ensureDiscoverable();
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},1);
         mBtAdapter.startDiscovery();
     }
     // The BroadcastReceiver that listens for discovered devices and
@@ -171,6 +175,15 @@ public class DeviceList extends AppCompatActivity {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void ensureDiscoverable() {
+
+        if (mBtAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 400);
+            startActivity(discoverableIntent);
         }
     }
 }
