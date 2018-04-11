@@ -5,7 +5,7 @@ package com.example.ravi.myosa;
  */
 
 public class sensor {
-    private String senosrName;
+    private String sensorName;
     private int ttlNumVlaues;
     private int ttlStringVal;
     private int ttlTriVal;
@@ -14,28 +14,30 @@ public class sensor {
     private String[][] Trinum;
 
     public sensor(String name, String[] allNumValues, String[] allStringValues, String[][] allTriValues) {
-        this.senosrName = name;
-
-        if (allNumValues == null) {
-            this.ttlNumVlaues = 0;
-        } else {
+        this.sensorName = name;
+        try {
             this.numValues = allNumValues.clone();
             this.ttlNumVlaues = numValues.length;
         }
+        catch (Exception e){
+            this.ttlNumVlaues=0;
+        }
 
-        if (allStringValues == null) {
-            this.ttlStringVal = 0;
-        } else {
+        try {
             this.stringValues = allStringValues.clone();
             this.ttlStringVal = stringValues.length;
+        } catch (Exception e) {
+            this.ttlNumVlaues=0;
         }
 
-        if (allStringValues == null) {
-            this.ttlTriVal = 0;
-        } else {
+
+        try {
             this.Trinum = allTriValues.clone();
             this.ttlTriVal = Trinum.length;
+        } catch (Exception e) {
+            this.ttlNumVlaues=0;
         }
+
 
     }
 
@@ -57,11 +59,11 @@ public class sensor {
     }
 
     public String getSenosrName() {
-        return senosrName;
+        return sensorName;
     }
 
-    public void setSenosrName(String senosrName) {
-        this.senosrName = senosrName;
+    public void setSenosrName(String sensorName) {
+        this.sensorName = sensorName;
     }
 
     public int getTtlNumVlaues() {
