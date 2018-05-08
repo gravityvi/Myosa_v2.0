@@ -65,7 +65,7 @@ public class Infopage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(Infopage.this,Dashboard.class);
-                Infopage.this.startActivity(mainIntent);
+                startActivity(mainIntent);
             }
         });
 

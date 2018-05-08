@@ -83,7 +83,7 @@ public class Dashboard extends AppCompatActivity {
         for(int i=0;i<18;i++){
             visi[i]=false;
         }
-        databaseHelper=new DatabaseHelper(this,SensorNames);
+        databaseHelper=new DatabaseHelper(this);
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -258,7 +258,7 @@ public class Dashboard extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //databaseHelper.onUpgrade();
+               // databaseHelper.onUpgrade();
                 finish();
             }
         });

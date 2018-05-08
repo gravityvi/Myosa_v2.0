@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Pratik\Documents\WorkSpace\Android Studio\Mayosa_v2.0\MAYOSA.iml" filepath="C:\Users\Pratik\Documents\WorkSpace\Android Studio\Mayosa_v2.0\MAYOSA.iml" />
-      <module fileurl="file://C:\Users\ravi\AndroidStudioProjects\Myosa_v2.0\Mayosa_v2.0.iml" filepath="C:\Users\ravi\AndroidStudioProjects\Myosa_v2.0\Mayosa_v2.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/Myosa_v2.0.iml" filepath="$PROJECT_DIR$/Myosa_v2.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
