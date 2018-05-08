@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class sensorDetails {
 
     static int TOTAL_SENSORS = 0;
-    ArrayList<Attributes> tiles;
+    public ArrayList<Attributes> tiles;
 
     public sensorDetails(){
         this.tiles=new ArrayList<>();

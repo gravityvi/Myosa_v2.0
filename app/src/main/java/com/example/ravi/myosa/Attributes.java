@@ -6,8 +6,32 @@ package com.example.ravi.myosa;
 
 public class Attributes {
 
+    public String getHead() {
+        return head;
+    }
+
+    public String getAttName() {
+        return attName;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getAtt1() {
+        return att1;
+    }
+
+    public String getAtt2() {
+        return att2;
+    }
+
+    public String getAtt3() {
+        return att3;
+    }
+
     String head;
-    String attName;
+     String attName;
     int type;    // 1 = signle value, 2 = single String value, 3 = triplet value, 4 = tiplet String
     String att1;
     String att2;
