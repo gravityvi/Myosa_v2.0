@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#ff4081</color>
-    <color name="myapp">#1bd1fd</color>
-    <color name="newdark">#079abd</color>
-    <color name="wi">#ffffff</color>
-    <color name="bla">#000000</color>
+    <color name="primaryColor">#2b4141</color>
+    <color name="primaryLightColor">#556c6c</color>
+    <color name="primaryDarkColor">#031b1b</color>
+    <color name="secondaryColor">#34e4ea</color>
+    <color name="secondaryLightColor">#7bffff</color>
+    <color name="secondaryDarkColor">#00b1b8</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="wi">#FFFFFF</color>
 </resources>
