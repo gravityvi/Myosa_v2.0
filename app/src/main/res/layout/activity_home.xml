@@ -5,7 +5,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ravi.mayosa.HomeActivity">
+    tools:context="com.example.ravi.myosa.HomeActivity">
 
     <ImageView
         android:id="@+id/imageView"

@@ -7,85 +7,43 @@ import java.util.ArrayList;
  */
 
 public class sensorDetails {
-    
 
-    static int TOTAL_SENSORS=9;
-    static sensor[] allSensor;
-    private String[] AllSensors;
-    static ArrayList<Attributes> ttlAttributes = new ArrayList<>();
+    static int TOTAL_SENSORS = 0;
+    ArrayList<Attributes> tiles;
 
-    public static void sensorInit(){
-        allSensor=new sensor[TOTAL_SENSORS];
-        String[] numOne = {"Visibility(Raw Data)","Infrared (Raw Data)","Illuminance(LUX)"};
-        allSensor[0]=new sensor("Luminousity Sensor", numOne,null,null);
-        numOne=null;
+    public sensorDetails(){
+        this.tiles=new ArrayList<>();
 
-        String[] numTwo = {"Temprature (\u00B0 C)", "Pressure (mbar)", "Pressure (mmHg)", "Altitude (meter)"};
-        allSensor[1]=(new sensor("Berometric Pressure sensor", numTwo, null,null));
-        numTwo=null;
+        tiles.add(new Attributes("Real Time Clock", "Date","Time","Day",4));
 
-        String[] numThree = {"CO2 (ppm)", "TVOC (ppb)"};
-        allSensor[2]=(new sensor("Air Quality Snensor", numThree, null,null));
-        numThree=null;
+        tiles.add(new Attributes("Luminousity Sensor","Visibility(Raw Data)", 1));
+        tiles.add(new Attributes("Luminousity Sensor","Infrared (Raw Data)", 1));
+        tiles.add(new Attributes("Luminousity Sensor","Illuminance(LUX)", 1));
 
-        String[] numFour = {"Heart Rate (BPM)", "Avg Heart Rate (BPM)", "Oxygenated blood (%)"};
-        String[] strFour = {"Presence Detection"};
-        allSensor[3]=(new sensor("Particle Sensor", numFour, strFour,null));
-        numFour=null;
-        strFour=null;
+        tiles.add(new Attributes("Berometric Pressure sensor","Temprature (\u00B0 C)", 1));
+        tiles.add(new Attributes("Berometric Pressure sensor","Pressure (mbar)", 1));
+        tiles.add(new Attributes("Berometric Pressure sensor","Pressure (mmHg)", 1));
+        tiles.add(new Attributes("Berometric Pressure sensor","Altitude (meter)", 1));
 
-        String[][] triFive = {{"X (mgauss)", "Y (mgauss)", "Z (mgauss)"}};
-        allSensor[4]=(new sensor("Magnetometer", null,null, triFive));
-        triFive=null;
+        tiles.add(new Attributes("Air Quality Snensor","CO2 (ppm)", 1));
+        tiles.add(new Attributes("Air Quality Snensor","TVOC (ppb)", 1));
 
+        tiles.add(new Attributes("Particle Sensor","Heart Rate (BPM)", 1));
+        tiles.add(new Attributes("Particle Sensor","Avg Heart Rate (BPM)", 1));
+        tiles.add(new Attributes("Particle Sensor","Oxygenated blood (%)", 1));
+        tiles.add(new Attributes("Particle Sensor","Presence Detection", 2));
 
-        String[] numSix = {"Ambient Light (Raw data)"};
-        String[] strSix = {"Gesture"};
-        String[][] triSix = {{"Red (Raw data)", "Green (Raw data)", "Blue (Raw data)"}};
-        allSensor[5]=(new sensor("RGB and Gesture Sensor", numSix, strSix, triSix));
-        numSix=null;
-        strSix=null;
-        triSix=null;
+        tiles.add(new Attributes("Magnetometer", "X (mgauss)", "Y (mgauss)", "Z (mgauss)", 3));
 
-        String[][] triSvn = {{"Gx (degree)","Gy (degree)","Gz (degree)"},{"Ax (m/(s)Square)","Ay (m/(s)Square)","Az (m/(s)Square)"}};
-        allSensor[6]=(new sensor("MPU6050", null,null,triSvn));
-        triSvn=null;
+        tiles.add(new Attributes("RGB and Gesture Sensor", "Ambient Light (Raw data)",1));
+        tiles.add(new Attributes("RGB and Gesture Sensor", "Gesture",2));
+        tiles.add(new Attributes("RGB and Gesture Sensor", "Red (Raw data)", "Green (Raw data)", "Blue (Raw data)",3));
 
-        String[] strEight = {"Date","Time","Day"};
-        allSensor[7]=(new sensor("Real Time Clock",null,strEight,null));
-        strEight=null;
+        tiles.add(new Attributes("MPU6050", "Gx (degree)","Gy (degree)","Gz (degree)",3));
+        tiles.add(new Attributes("MPU6050", "Ax (m/(s)Square)","Ay (m/(s)Square)","Az (m/(s)Square)",3));
 
-        String[] strNine = {"Temperature (\u00B0C)", "Temperature (\u00B0F)", "Humidity (%)"};
-        allSensor[8]=(new sensor("Temperature and Pressure Sensor", strNine,null,null));
-        strNine=null;
-
-        ///***********************************************/////
-
-
-        for(int i=0;i<sensorDetails.TOTAL_SENSORS;i++){
-            sensor curr_sensor = sensorDetails.allSensor[i];
-            String[] numvalues = curr_sensor.getNumValues();
-            String[] strvalues = curr_sensor.getStringValues();
-            String[][] trivalues = curr_sensor.getTrinum();
-            String head = curr_sensor.getSenosrName();
-
-            if(curr_sensor.getTtlNumVlaues()!=0){
-                for(int _i=0;_i<numvalues.length;i++){
-                    ttlAttributes.add(new Attributes(head,numvalues[_i], true));
-                }
-            }
-            if(curr_sensor.getTtlStringVal()!=0){
-                for(int _i=0;_i<strvalues.length;i++){
-                    ttlAttributes.add(new Attributes(head,strvalues[_i], false));
-                }
-            }
-            if(curr_sensor.getTtlTriVal()!=0){
-                for(int _i=0;_i<trivalues.length;i++){
-                    for(int k=0;k<trivalues[_i].length;k++){
-                        ttlAttributes.add(new Attributes(head,trivalues[_i][k], true));
-                    }
-                }
-            }
-        }
+        tiles.add(new Attributes("Temperature and Pressure Sensor", "Temperature (\u00B0C)",1));
+        tiles.add(new Attributes("Temperature and Pressure Sensor", "Temperature (\u00B0F)",1));
+        tiles.add(new Attributes("Temperature and Pressure Sensor", "Humidity (%)",1));
     }
 }

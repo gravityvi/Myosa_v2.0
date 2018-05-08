@@ -69,19 +69,21 @@ public class Dashboard extends AppCompatActivity {
     LineGraphSeries[] lineGraphSeries;
     private boolean visi[];
     private float x=0;
+    sensorDetails sns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        sns = new sensorDetails();
         graphViews = new GraphView[18];
         lineGraphSeries = new LineGraphSeries[26];
         visi = new boolean[18];
         for(int i=0;i<18;i++){
             visi[i]=false;
         }
-      databaseHelper=new DatabaseHelper(this,SensorNames); 
+        databaseHelper=new DatabaseHelper(this,SensorNames);
         //new
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -343,8 +345,6 @@ public class Dashboard extends AppCompatActivity {
                 last++;
             }
         }
-
-
         x++;
     }
 

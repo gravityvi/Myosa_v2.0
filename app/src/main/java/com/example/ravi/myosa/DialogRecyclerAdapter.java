@@ -25,7 +25,7 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
     public DialogRecyclerAdapter(Context context) {
         this.context=context;
         inflator=LayoutInflater.from(context);
-        ttlAttributes=sensorDetails.ttlAttributes;
+       // ttlAttributes=sensorDetails.ttlAttributes;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
 
             }
         });
-        if(ttlAttributes.get(position).num)
+        /*if(ttlAttributes.get(position).num)
         {
             holder.estring.setEnabled(false);
         }
@@ -59,7 +59,7 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
         {
             holder.emin.setEnabled(false);
             holder.emin.setEnabled(false);
-        }
+        }*/
 
     }
 
@@ -85,9 +85,6 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
             emax=itemView.findViewById(R.id.emax);
             LinearGone=itemView.findViewById(R.id.LinearGone);
             cSensor=itemView.findViewById(R.id.cSensor);
-
-
         }
     }
-
 }
