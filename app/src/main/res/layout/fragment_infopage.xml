@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/wi"
     tools:context="com.example.ravi.myosa.Infopage$PlaceholderFragment">
 
     <ScrollView
@@ -24,8 +25,8 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/cardo"
+                android:textColor="@color/secondaryDarkColor"
                 android:text="@string/myosa"
-                android:textColor="@color/myapp"
                 android:textSize="30sp" />
 
             <TextView
@@ -35,9 +36,9 @@
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
                 android:fontFamily="@font/cardo"
                 android:text="@string/Myosa_intro"
-                android:textColor="@color/bla"
                 android:textSize="16sp" />
 
             <TextView
@@ -48,8 +49,8 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="sans-serif"
+                android:textColor="@color/secondaryDarkColor"
                 android:text="@string/themobileapp"
-                android:textColor="@color/myapp"
                 android:textSize="20sp" />
 
             <TextView
@@ -57,23 +58,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:fontFamily="@font/cardo"
                 android:text="@string/homeapp"
-                android:textColor="@color/bla"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/headingpack"
                 android:layout_width="match_parent"
+                android:textColor="@color/secondaryDarkColor"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="sans-serif"
                 android:text="@string/homepack"
-                android:textColor="@color/myapp"
                 android:textSize="20sp" />
 
             <TextView
@@ -82,22 +83,22 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:fontFamily="@font/cardo"
                 android:text="@string/homeapp"
-                android:textColor="@color/bla"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/headingmoti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/secondaryDarkColor"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="sans-serif"
                 android:text="@string/homemoti"
-                android:textColor="@color/myapp"
                 android:textSize="20sp" />
 
             <TextView
@@ -105,12 +106,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:fontFamily="@font/cardo"
                 android:paddingBottom="100dp"
                 android:text="@string/motivatontext"
-                android:textColor="@color/bla"
                 android:textSize="16sp" />
 
         </LinearLayout>

@@ -118,7 +118,7 @@
         <Button
             android:id="@+id/bsave"
             android:text="Save"
-            android:background="@color/colorAccent"
+            android:background="@color/secondaryColor"
             android:layout_margin="10dp"
             android:layout_gravity="end"
             android:layout_width="110dp"
