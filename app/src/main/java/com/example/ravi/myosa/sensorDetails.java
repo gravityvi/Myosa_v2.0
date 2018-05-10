@@ -8,12 +8,15 @@ import java.util.ArrayList;
 
 public class sensorDetails {
 
-    static int TOTAL_SENSORS = 0;
+    static int TOTAL_SENSORS = 10;
     public ArrayList<Attributes> tiles;
+    public ArrayList<String> SensorAttributes;
+    public static EventAttributes eventAttributes[];
 
     public sensorDetails(){
         this.tiles=new ArrayList<>();
 
+        this.SensorAttributes=new ArrayList<>();
         tiles.add(new Attributes("Real Time Clock", "Date","Time","Day",4));
 
         tiles.add(new Attributes("Luminousity Sensor","Visibility(Raw Data)", 1));
@@ -45,5 +48,42 @@ public class sensorDetails {
         tiles.add(new Attributes("Temperature and Pressure Sensor", "Temperature (\u00B0C)",1));
         tiles.add(new Attributes("Temperature and Pressure Sensor", "Temperature (\u00B0F)",1));
         tiles.add(new Attributes("Temperature and Pressure Sensor", "Humidity (%)",1));
+
+        int n;
+        for(int i=0;i<tiles.size();i++)
+        {
+            n=tiles.get(i).getType();
+            switch(n)
+            {
+                case 1: n=1;
+
+                    SensorAttributes.add(tiles.get(i).getAttName());
+                    break;
+                case 2: n=1;
+
+                    SensorAttributes.add(tiles.get(i).getAttName());
+                    break;
+                case 3: n=3;
+
+                    SensorAttributes.add(tiles.get(i).getAtt1());
+                    SensorAttributes.add(tiles.get(i).getAtt2());
+                    SensorAttributes.add(tiles.get(i).getAtt3());
+                    break;
+                case 4: n=3;
+
+                    SensorAttributes.add(tiles.get(i).getAtt1());
+                    SensorAttributes.add(tiles.get(i).getAtt2());
+                    SensorAttributes.add(tiles.get(i).getAtt3());
+                    break;
+            }
+
+        }
+        this.eventAttributes=new EventAttributes[SensorAttributes.size()];
+        for(int i=0;i<SensorAttributes.size();i++)
+        {
+            EventAttributes e=new EventAttributes();
+            e.setAttribute(SensorAttributes.get(i));
+            eventAttributes[i]=e;
+        }
     }
 }

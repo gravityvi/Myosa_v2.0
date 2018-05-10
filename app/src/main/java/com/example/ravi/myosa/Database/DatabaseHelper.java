@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME="Sensors";
     private static final String COL_1="_id";
     private static final sensorDetails sd=new sensorDetails();
-    private static final ArrayList<String> SensorAttributes=new ArrayList<>();
+
 
     private static Context context;
 
@@ -37,44 +37,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " +TABLE_NAME+ "("+COL_1+"INTEGER PRIMARY KEY AUTOINCREMENT )");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 + "INTEGER PRIMARY KEY AUTOINCREMENT )");
         int n;
-        for(int i=0;i<sd.tiles.size();i++)
-        {
-            n=sd.tiles.get(i).getType();
-            switch(n)
-            {
-                case 1: n=1;
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAttName()+" VARCHAR(250) ");
-                    SensorAttributes.add(sd.tiles.get(i).getAttName());
-                    break;
-                case 2: n=1;
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAttName()+" VARCHAR(250) ");
-                    SensorAttributes.add(sd.tiles.get(i).getAttName());
-                    break;
-                case 3: n=3;
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt1()+" VARCHAR(250) ");
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt2()+" VARCHAR(250) ");
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt3()+" VARCHAR(250) ");
-                    SensorAttributes.add(sd.tiles.get(i).getAtt1());
-                    SensorAttributes.add(sd.tiles.get(i).getAtt2());
-                    SensorAttributes.add(sd.tiles.get(i).getAtt3());
-                    break;
-                case 4: n=3;
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt1()+" VARCHAR(250) ");
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt2()+" VARCHAR(250) ");
-                    db.execSQL("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+sd.tiles.get(i).getAtt3()+" VARCHAR(250) ");
-                    SensorAttributes.add(sd.tiles.get(i).getAtt1());
-                    SensorAttributes.add(sd.tiles.get(i).getAtt2());
-                    SensorAttributes.add(sd.tiles.get(i).getAtt3());
-                        break;
-            }
-
+        for (int i = 0; i < sd.SensorAttributes.size(); i++) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + sd.SensorAttributes.get(i) + " VARCHAR(250) ");
         }
-
-
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -86,16 +54,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean InsertData(String s[])
     {
         ContentValues contentValues=new ContentValues();
-        SQLiteDatabase db=getWritableDatabase();
+
         for(int i=0;i<s.length;i++)
         {
             if(s[i].equals("*"))
             {
-                contentValues.put(SensorAttributes.get(i),"-1");
+                contentValues.put(sd.SensorAttributes.get(i),"-1");
             }
             else
             {
-                contentValues.put(SensorAttributes.get(i),s[i]);
+                contentValues.put(sd.SensorAttributes.get(i),s[i]);
             }
 
         }
