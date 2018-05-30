@@ -1,17 +1,29 @@
 package com.example.ravi.myosa;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +32,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +73,6 @@ public class Dashboard extends AppCompatActivity {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
 
-    private RecyclerView.LayoutManager lm;
     // Name of the connected device
     private String mConnectedDeviceName = null;
     // Local Bluetooth adapter
@@ -71,36 +84,27 @@ public class Dashboard extends AppCompatActivity {
     GraphView[] graphViews;
     LineGraphSeries[] lineGraphSeries;
     private boolean visi[];
-    private float x=0;
     sensorDetails sns;
-
+    double xAxis = 0;
+    Uri uriofNotification;
+    NotificationManagerCompat notMang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        sns = new sensorDetails();
-        graphViews = new GraphView[18];
-        lineGraphSeries = new LineGraphSeries[26];
-        visi = new boolean[18];
-        for(int i=0;i<18;i++){
-            visi[i]=false;
-        }
+        notMang = NotificationManagerCompat.from(this);
         databaseHelper=new DatabaseHelper(this);
-        //new
+        deleteDatabase(databaseHelper.DATABASE_NAME);
+        uriofNotification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        sns = new sensorDetails();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-//        // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
-//
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
+        String[] p = {"*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"};
+        databaseHelper.InsertData(p);
         initViews();
     }
 
@@ -119,6 +123,12 @@ public class Dashboard extends AppCompatActivity {
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
             if (mChatService == null) setupChat();
+        }
+
+        if(Build.VERSION.SDK_INT>=23){
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
         }
     }
 
@@ -193,7 +203,7 @@ public class Dashboard extends AppCompatActivity {
                     // construct a string from the valid bytes in the buffer
                     //String readMessage = new String(readBuf, 0, msg.arg1);
 
-                    if(to_store.split(",").length>26){
+                    if(to_store.split(",").length>sensorDetails.TOTAL_VALUES){
                         to_store="";
                         break;
                     }
@@ -205,13 +215,13 @@ public class Dashboard extends AppCompatActivity {
                         to_store = readMessage;
                     }
 
-                    if ((to_store.split(",").length==26)){
+                    if ((to_store.split(",").length==sensorDetails.TOTAL_VALUES)){
                         to_store=to_store.trim();
                         String s[]=to_store.split(",");
+                        Log.e("msg","rcvd "+to_store);
                         to_store = "";
-                        Log.e("msg","rcvd"+s.length);
                         addData(s);
-                        valueSeque.addRecord(s);
+                        checkEvent(s);
                         databaseHelper.InsertData(s);
                     }
 
@@ -219,11 +229,16 @@ public class Dashboard extends AppCompatActivity {
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-                    Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                    Snackbar.make((ScrollView) findViewById(R.id.scrol), "Connected to " + mConnectedDeviceName,
+                            Snackbar.LENGTH_SHORT).show();
+                    findViewById(R.id.instuText).setVisibility(View.GONE);
                     break;
                 case MESSAGE_TOAST:
-                    Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
-                            Toast.LENGTH_SHORT).show();
+                    Snackbar.make((ScrollView) findViewById(R.id.scrol), msg.getData().getString(TOAST),
+                            Snackbar.LENGTH_SHORT).show();
+                    if(msg.getData().equals("Unable to connect device")){
+                        findViewById(R.id.instuText).setVisibility(View.VISIBLE);
+                    }
                     break;
             }
         }
@@ -261,9 +276,6 @@ public class Dashboard extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-               // databaseHelper.onUpgrade();
-
                 finish();
             }
         });
@@ -285,8 +297,17 @@ public class Dashboard extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_DENIED){
+            Snackbar.make((ScrollView) findViewById(R.id.scrol), "Data won't be stored!",
+                    Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent serverIntent;
+        final Intent serverIntent;
 
         switch (item.getItemId()){
             case R.id.action_connect:
@@ -295,64 +316,313 @@ public class Dashboard extends AppCompatActivity {
                 return true;
 
             case R.id.cEvent:
-                android.support.v4.app.DialogFragment newFragment=new EventManagement();
-                newFragment.show(getSupportFragmentManager(),"eventmanagement");
-                System.out.println(Arrays.toString(sensorDetails.eventAttributes)+"  hello");
-
-
+                if(sensorDetails.evntCreated==sensorDetails.lintEvent){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setCancelable(false);
+                    builder.setMessage("Limit exceeded! You can create only three events");
+                    builder.setPositiveButton("Clear All", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sensorDetails.clearEvents();
+                        }
+                    });
+                    builder.setNegativeButton("Back",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert=builder.create();
+                    alert.show();
+                }
+                else {
+                    android.support.v4.app.DialogFragment newFragment = new EventManagement();
+                    newFragment.show(getSupportFragmentManager(), "eventmanagement");
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    void addData(String[] s){
-        Log.e("Graph","data added");
-        for(int i=0;i<14;i++){
-            if(!s[i].equals("*")){
-                if(visi[i]==false){
-                    view[i].setVisibility(View.VISIBLE);
-                    visi[i]=true;
+    void addData(String[] s) {
+        for(int i=0;i<16;i++){
+            if(s[i].equals("*")) {
+                if (visi[i]) {
+                    visi[i] = false;
+                    view[i].setVisibility(View.GONE);
                 }
-                lineGraphSeries[i].appendData(new DataPoint(x,Integer.parseInt(s[i])),true,35);
+            }
+            else {
+                if(!visi[i]) {
+                    visi[i] = true;
+                    view[i].setVisibility(View.VISIBLE);
+                }
+                lineGraphSeries[i].appendData(new DataPoint(xAxis,Double.parseDouble(s[i])),true, 40);
                 ((TextView)view[i].findViewById(R.id.tValue)).setText(s[i]);
             }
-            else if(s[i].equals("*")){
-                if(visi[i]==true){
+        }
+        
+        int stNum=16;
+        for(int i=16;i<20;i++){
+            if(s[stNum].equals("*")){
+                if(visi[i]) {
+                    visi[i] = false;
                     view[i].setVisibility(View.GONE);
-                    visi[i]=false;
                 }
+                stNum = stNum + 3;
+            }
+            else {
+                if(!visi[i]){
+                    visi[i]=true;
+                    view[i].setVisibility(View.VISIBLE);
+                }
+                lineGraphSeries[stNum].appendData(new DataPoint(xAxis, Double.parseDouble(s[stNum])),true, 40);
+                ((TextView)view[i].findViewById(R.id.tValue1)).setText(s[stNum]);
+                stNum++;
+                lineGraphSeries[stNum].appendData(new DataPoint(xAxis, Double.parseDouble(s[stNum])),true, 40);
+                ((TextView)view[i].findViewById(R.id.tValue2)).setText(s[stNum]);
+                stNum++;
+                lineGraphSeries[stNum].appendData(new DataPoint(xAxis, Double.parseDouble(s[stNum])),true, 40);
+                ((TextView)view[i].findViewById(R.id.tValue3)).setText(s[stNum]);
+                stNum++;
             }
         }
 
-        int last=14;
-        for(int j=14;j<18;j++){
-            for(int i=0;i<3;i++) {
-                if(s[last].equals("*")){
-                    if(visi[j]==true){
-                        view[j].setVisibility(View.GONE);
-                        visi[j]=false;
+        stNum=28;
+        int curView=20;
+        if(s[stNum].equals("*")) {
+            if (visi[curView]) {
+                visi[curView] = false;
+                view[curView].setVisibility(View.GONE);
+            }
+            stNum=stNum+3;
+        }
+        else {
+            if(!visi[curView]){
+                visi[curView]=true;
+                view[curView].setVisibility(View.VISIBLE);
+            }
+            ((TextView)view[curView].findViewById(R.id.tTime)).setText(s[stNum]);
+            stNum++;
+            ((TextView)view[curView].findViewById(R.id.tdate)).setText(s[stNum]);
+            stNum++;
+            ((TextView)view[curView].findViewById(R.id.tday)).setText(s[stNum]);
+            stNum++;
+        }
+
+        curView++;
+        if(s[stNum].equals("*")){
+            if(visi[curView]){
+                visi[curView]=false;
+                view[curView].setVisibility(View.GONE);
+            }
+            stNum++;
+        }
+        else {
+            if(!visi[curView]){
+                visi[curView]=true;
+                view[curView].setVisibility(View.VISIBLE);
+            }
+            ((TextView)view[curView].findViewById(R.id.tPresence)).setText(s[stNum]);
+        }
+
+        curView++;
+        if(s[stNum].equals("*")) {
+            if (visi[curView]) {
+                visi[curView] = false;
+                view[curView].setVisibility(View.GONE);
+            }
+            stNum++;
+        }
+        else {
+            if(!visi[curView]){
+                visi[curView]=true;
+                view[curView].setVisibility(View.VISIBLE);
+            }
+            ((TextView)view[curView].findViewById(R.id.tGesture)).setText(s[stNum]);
+        }
+        xAxis=xAxis+0.1;
+    }
+
+    void initViews() {
+        view = new View[23];
+        graphViews = new GraphView[20];
+        lineGraphSeries = new LineGraphSeries[28];
+        view[0] = findViewById(R.id.sValue1);
+        view[1] = findViewById(R.id.sValue2);
+        view[2] = findViewById(R.id.sValue3);
+        view[3] = findViewById(R.id.sValue4);
+        view[4] = findViewById(R.id.sValue5);
+        view[5] = findViewById(R.id.sValue6);
+        view[6] = findViewById(R.id.sValue7);
+        view[7] = findViewById(R.id.sValue8);
+        view[8] = findViewById(R.id.sValue9);
+        view[9] = findViewById(R.id.sValue10);
+        view[10] = findViewById(R.id.sValue11);
+        view[11] = findViewById(R.id.sValue12);
+        view[12] = findViewById(R.id.sValue13);
+        view[13] = findViewById(R.id.sValue14);
+        view[14] = findViewById(R.id.sValue15);
+        view[15] = findViewById(R.id.sValue16);
+
+        view[16] = findViewById(R.id.sValue31);
+        view[17] = findViewById(R.id.sValue32);
+        view[18] = findViewById(R.id.sValue33);
+        view[19] = findViewById(R.id.sValue34);
+
+        view[20] = findViewById(R.id.rtc);
+        view[21] = findViewById(R.id.ptclSns);
+        view[22] = findViewById(R.id.rgbS);
+
+        int snsT = 0;
+
+        visi = new boolean[23];
+        for (int i = 0; i < 23; i++) {
+            visi[i] = false;
+            view[i].setVisibility(View.GONE);
+        }
+
+        for(int i=0;i<28;i++){
+            lineGraphSeries[i]=new LineGraphSeries();
+            lineGraphSeries[i].setAnimated(true);
+            lineGraphSeries[i].setDataPointsRadius(6);
+            lineGraphSeries[i].setDrawDataPoints(true);
+            lineGraphSeries[i].setThickness(5);
+        }
+
+        for (int i = 0; i < 16; i++) {
+            TextView headofAt = view[i].findViewById(R.id.tSensorHead);
+            TextView nameOfatt = view[i].findViewById(R.id.tAttribute);
+            while (snsT < sns.TOTAL_SENSORS && sns.tiles.get(snsT).getType() != 1)
+                snsT++;
+            headofAt.setText(sns.tiles.get(snsT).getHead());
+            nameOfatt.setText(sns.tiles.get(snsT).getAttName());
+            snsT++;
+
+            GraphView graph = view[i].findViewById(R.id.graph);
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graph.getGridLabelRenderer().setLabelVerticalWidth(25);
+            graph.getGridLabelRenderer().setTextSize(25);
+            graph.getGridLabelRenderer().setVerticalLabelsColor(R.color.secondaryTextColor);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMaxX(3);
+
+            graph.addSeries(lineGraphSeries[i]);
+            lineGraphSeries[i].setColor(Color.argb(255,0, 177, 184));
+        }
+
+        snsT=0;
+        int lnGnum=16;
+        String attName;
+        for (int i = 16; i < 20; i++) {
+            TextView head = view[i].findViewById(R.id.tSensorHead);
+            TextView att1 = view[i].findViewById(R.id.tAttribute1);
+            TextView att2 = view[i].findViewById(R.id.tAttribute2);
+            TextView att3 = view[i].findViewById(R.id.tAttribute3);
+            GraphView graph = view[i].findViewById(R.id.graph);
+            graph.getGridLabelRenderer().setLabelVerticalWidth(25);
+            graph.getGridLabelRenderer().setTextSize(25);
+            graph.getGridLabelRenderer().setVerticalLabelsColor(R.color.secondaryTextColor);
+            graph.getViewport().setMinX(0);
+            graph.getViewport().setMaxX(3);
+            graph.getViewport().setXAxisBoundsManual(true);
+
+            while (snsT < sns.TOTAL_SENSORS && sns.tiles.get(snsT).getType() != 3)
+                snsT++;
+
+            head.setText(sns.tiles.get(snsT).getHead());
+
+            attName = sns.tiles.get(snsT).getAtt1();
+            att1.setText(attName);
+            lineGraphSeries[lnGnum].setColor(Color.argb(255, 245, 124, 0));
+            graph.addSeries(lineGraphSeries[lnGnum]);
+            lineGraphSeries[lnGnum].setTitle(attName);
+            lnGnum++;
+
+            attName = sns.tiles.get(snsT).getAtt2();
+            att2.setText(attName);
+            lineGraphSeries[lnGnum].setColor(Color.argb(255,67, 160, 71));
+            graph.addSeries(lineGraphSeries[lnGnum]);
+            lineGraphSeries[lnGnum].setTitle(attName);
+            lnGnum++;
+
+            attName = sns.tiles.get(snsT).getAtt3();
+            att3.setText(attName);
+            lineGraphSeries[lnGnum].setColor(Color.argb(255,3, 155, 229));
+            graph.addSeries(lineGraphSeries[lnGnum]);
+            lineGraphSeries[lnGnum].setTitle(attName);
+            lnGnum++;
+
+            ((ImageView)view[i].findViewById(R.id.cat1)).setBackgroundColor(Color.rgb(245, 124, 0));
+            ((ImageView)view[i].findViewById(R.id.cat2)).setBackgroundColor(Color.rgb(67, 160, 71));
+            ((ImageView)view[i].findViewById(R.id.cat3)).setBackgroundColor(Color.rgb(3, 155, 229));
+            snsT++;
+        }
+    }
+
+    public void checkEvent(String[] s){
+        if(sensorDetails.evntCreated!=0){
+            for(int i=0;i<sensorDetails.evntCreated;i++){
+                boolean event=true;
+                for(int j=0;j<sensorDetails.TOTAL_VALUES;j++) {
+                    EventAttributes temp = sensorDetails.eventAttributes.get(i)[j];
+                    if (temp.selected) {
+                        if (!s[j].equals("*")) {
+                            if (temp.inclusive) {
+                                if (sensorDetails.SensorAttributes.get(j).isNum()) {
+                                    if (!(Double.parseDouble(s[j]) <= temp.getMax() && Double.parseDouble(s[j]) >= temp.getMin())) {
+                                        Log.e("1", temp.getMax()+" "+temp.getMin()+" "+s[j]);
+                                        event = false;
+                                        break;
+                                    }
+                                } else {
+                                    if (s[j].equals(temp.getS())) {
+                                        Log.e("2", temp.getS()+" "+s[j]);
+                                        event = false;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                if (sensorDetails.SensorAttributes.get(j).isNum()) {
+                                    if (!(Double.parseDouble(s[j]) >= temp.getMax() || Double.parseDouble(s[j]) <= temp.getMin())) {
+                                        Log.e("3", temp.getMax()+" "+temp.getMin()+" "+s[j]);
+                                        event = false;
+                                        break;
+                                    }
+                                } else {
+                                    if (s[j].equals(temp.getS())) {
+                                        Log.e("4", temp.getS()+" "+s[j]);
+                                        event = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            event=false;
+                        }
+                    }
+                }
+                Log.e("sensor",event+" ");
+                if(event){
+                    if(!sensorDetails.notified[i]) {
+                        this.sendMessage(sensorDetails.charTosend.get(i));
+                        NotificationCompat.Builder notbuilder = new NotificationCompat.Builder(this);
+                        notbuilder.setSmallIcon(R.drawable.save);
+                        notbuilder.setContentTitle(sensorDetails.eventName.get(i) + " " + "Occurred");
+                        notbuilder.setContentText("Actuators are working now");
+                        notbuilder.setSound(uriofNotification);
+                        notMang.notify(i, notbuilder.build());
+                        sendMessage(sensorDetails.charTosend.get(i));
+                        sensorDetails.notified[i]=true;
                     }
                 }
                 else {
-                    if (visi[j] == false) {
-                        view[j].setVisibility(View.VISIBLE);
-                        visi[j] = true;
-                    }
-                    lineGraphSeries[last].appendData(new DataPoint(x, Integer.parseInt(s[last])), true, 35);
-                    if(i==0)
-                        ((TextView)view[j].findViewById(R.id.tValue1)).setText(s[last]);
-                    else if(i==1)
-                        ((TextView)view[j].findViewById(R.id.tValue2)).setText(s[last]);
-                    else
-                        ((TextView)view[j].findViewById(R.id.tValue3)).setText(s[last]);
+                    sensorDetails.notified[i]=false;
                 }
-                last++;
             }
         }
-        x++;
-    }
-
-    void initViews(){
-
     }
 }
