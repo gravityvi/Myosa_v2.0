@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by ravi on 04-04-2018.
+ * 4Created by ravi on 04-04-2018.
  */
 
 public class EventManagement extends DialogFragment {
@@ -29,7 +29,7 @@ public class EventManagement extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
-        //Get Layout Inflator
+//        Get Layout Inflator
         LayoutInflater inflater = getActivity().getLayoutInflater();
         //Pass null as the parent view because its goinf in the dialogue layout
         View dialogview=inflater.inflate(R.layout.event_management,null);
@@ -71,4 +71,6 @@ public class EventManagement extends DialogFragment {
         });
         return builder.create();
     }
+
+
 }

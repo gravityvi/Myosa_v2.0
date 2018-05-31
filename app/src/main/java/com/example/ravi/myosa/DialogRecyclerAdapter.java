@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -42,12 +43,33 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
 
         if(!sensorDetails.SensorAttributes.get(position).isNum()){
             holder.onlyString();
+            holder.estring.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            holder.estring.setText(sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].s);
         }
         else {
             holder.stringOnly.setVisibility(View.GONE);
             holder.valueOnly.setVisibility(View.VISIBLE);
             holder.rg.setVisibility(View.VISIBLE);
+            holder.emax.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            holder.emin.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            if(sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].max==100000)
+            {
+                holder.emax.setText("");
+            }
+            else
+            {
+                holder.emax.setText(Double.toString(sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].max));
+            }
+            if((sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].min==-1000000))
+            {
+                holder.emin.setText("");
+            }
+            else
+            {
+                holder.emin.setText(Double.toString(sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].min));
+            }
         }
+
         holder.cSensor.setOnCheckedChangeListener(null);
         holder.rg.setOnCheckedChangeListener(null);
         holder.cSensor.setChecked(sensorDetails.eventAttributes.get(sensorDetails.evntCreated)[position].selected);

@@ -10,9 +10,18 @@
         app:showAsAction="always" />
 
     <item
+        android:title="Events"
+        android:icon="@drawable/ic_events"
+        android:id="@+id/events"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/action_connect"
         android:icon="@drawable/bbluetooth"
         android:title="@string/bButton"
         app:showAsAction="always" />
+
+
 
 </menu>

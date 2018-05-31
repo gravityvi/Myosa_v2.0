@@ -17,6 +17,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -340,6 +341,12 @@ public class Dashboard extends AppCompatActivity {
                     newFragment.show(getSupportFragmentManager(), "eventmanagement");
                 }
                 return true;
+
+                case R.id.events:
+                    android.support.v4.app.DialogFragment events=new Events();
+                    events.show(getSupportFragmentManager(),"events");
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
