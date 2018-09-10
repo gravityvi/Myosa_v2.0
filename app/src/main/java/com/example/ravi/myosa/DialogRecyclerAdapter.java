@@ -39,6 +39,7 @@ public class DialogRecyclerAdapter extends RecyclerView.Adapter<DialogRecyclerAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        System.out.println("Event created "+sensorDetails.evntCreated);
         holder.cSensor.setText(sensorDetails.SensorAttributes.get(position).getAttName());
 
         if(!sensorDetails.SensorAttributes.get(position).isNum()){

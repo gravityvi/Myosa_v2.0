@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class sectionRecyclerAdapter extends RecyclerView.Adapter<sectionRecyclerAdapter.ViewHolder> {
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<EventAttributes> sectionItems=new ArrayList<>();
-    private ArrayList<sensorDetails.attr> attributes = new ArrayList<>();
+    private ArrayList<EventAttributes> sectionItems;
+    private ArrayList<sensorDetails.attr> attributes;
     public sectionRecyclerAdapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
@@ -36,8 +36,8 @@ public class sectionRecyclerAdapter extends RecyclerView.Adapter<sectionRecycler
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tLabel.setText(sensorDetails.eventName.get(position));
         holder.ritems.setLayoutManager(new LinearLayoutManager(context));
-        sectionItems.clear();
-        attributes.clear();
+        sectionItems = new ArrayList<>();
+        attributes = new ArrayList<>();
         for(int i=0;i<sensorDetails.eventAttributes.get(position).length;i++)
         {
             if(sensorDetails.eventAttributes.get(position)[i].selected)
@@ -53,7 +53,7 @@ public class sectionRecyclerAdapter extends RecyclerView.Adapter<sectionRecycler
 
     @Override
     public int getItemCount() {
-        return sensorDetails.eventName.size();
+        return sensorDetails.evntCreated;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

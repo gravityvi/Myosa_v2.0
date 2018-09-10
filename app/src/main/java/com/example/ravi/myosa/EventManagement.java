@@ -50,6 +50,7 @@ public class EventManagement extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 sensorDetails.charTosend.add(charText.getText().toString().trim());
                 sensorDetails.evntCreated++;
+
                 sensorDetails.eventAdded=false;
                 sensorDetails.eventName.add(textEvent.getText().toString().trim());
             }
