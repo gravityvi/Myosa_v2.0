@@ -147,7 +147,7 @@ public class Infopage extends AppCompatActivity {
                 case 1:
                     return "Feature";
                 case 2:
-                    return "HowToUse";
+                    return "Application";
             }
             return null;
         }

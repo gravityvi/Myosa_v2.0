@@ -3,97 +3,22 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
     <string name="event">New Event</string>
-    <string name="large_text">
-    "Material is the metaphor.\n\n"
-
-    "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-    "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-    "technologically advanced and open to imagination and magic.\n"
-    "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-    "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-    "flexibility of the material creates new affordances that supercede those in the physical "
-    "world, without breaking the rules of physics.\n"
-    "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-    "interact, and exist in space and in relation to each other. Realistic lighting shows "
-    "seams, divides space, and indicates moving parts.\n\n"
-
-    "Bold, graphic, intentional.\n\n"
-
-    "The foundational elements of print based design typography, grids, space, scale, color, "
-    "and use of imagery guide visual treatments. These elements do far more than please the "
-    "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-    "imagery, large scale typography, and intentional white space create a bold and graphic "
-    "interface that immerse the user in the experience.\n"
-    "An emphasis on user actions makes core functionality immediately apparent and provides "
-    "waypoints for the user.\n\n"
-
-    "Motion provides meaning.\n\n"
-
-    "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-    "inflection points that initiate motion, transforming the whole design.\n"
-    "All action takes place in a single environment. Objects are presented to the user without "
-    "breaking the continuity of experience even as they transform and reorganize.\n"
-    "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-    "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-    "3D world.\n\n"
-
-    "The material environment is a 3D space, which means all objects have x, y, and z "
-    "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-    "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-    "position along the z-axis and has a standard 1dp thickness.\n"
-    "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-    "emulated by manipulating the y-axis.\n\n"
-
-    "Light and shadow.\n\n"
-
-    "Within the material environment, virtual lights illuminate the scene. Key lights create "
-    "directional shadows, while ambient light creates soft shadows from all angles.\n"
-    "Shadows in the material environment are cast by these two light sources. In Android "
-    "development, shadows occur when light sources are blocked by sheets of material at "
-    "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-    "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-    "Resting elevation.\n\n"
-
-    "All material objects, regardless of size, have a resting elevation, or default elevation "
-    "that does not change. If an object changes elevation, it should return to its resting "
-    "elevation as soon as possible.\n\n"
-
-    "Component elevations.\n\n"
-
-    "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-    "does not vary from 6dp in one app to 16dp in another app).\n"
-    "Components may have different resting elevations across platforms, depending on the depth "
-    "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-    "Responsive elevation and dynamic elevation offsets.\n\n"
-
-    "Some component types have responsive elevation, meaning they change elevation in response "
-    "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-    "changes are consistently implemented using dynamic elevation offsets.\n"
-    "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-    "to the component’s resting state. They ensure that elevation changes are consistent "
-    "across actions and component types. For example, all components that lift on press have "
-    "the same elevation change relative to their resting elevation.\n"
-    "Once the input event is completed or cancelled, the component will return to its resting "
-    "elevation.\n\n"
-
-    "Avoiding elevation interference.\n\n"
-
-    "Components with responsive elevations may encounter other components as they move between "
-    "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-    "through other material, components avoid interfering with one another any number of ways, "
-    "whether on a per component basis or using the entire app layout.\n"
-    "On a component level, components can move or be removed before they cause interference. "
-    "For example, a floating action button (FAB) can disappear or move off screen before a "
-    "user picks up a card, or it can move if a snackbar appears.\n"
-    "On the layout level, design your app layout to minimize opportunities for interference. "
-    "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-    "when a user tries to pick up one of cards."
-    </string>
-    <string name="Myosa_intro">MYOSA (Make Your Own Sensors Applications) is a plug-and-play, multipurpose, multisensor board for learning purpose. It is like a lego set with which students can play and learn about the sensors. More importantly, it equips the users ready-to-apply connections of sensors and the board so that the user doesn’t have to worry about wires and can directly jump on various innovative applications. Various blocks include different sensors and an OLED screen that displays the output The board also has a Bluetooth module through which the output data gets transferred to the MYOSA mobile application.</string>
-    <string name="homeapp">For easy and handy access to the sensors’ readings and data, the MYOSA Android application has been developed. The data observed on the OLED screen is uploaded to the application via Bluetooth module and updated continuously. Changing trends of the sensor readings can be studied using the graphs available on the application. Readings of the sensors, which are connected to the MYOSA board will be automatically displayed on the app.</string>
+    <string name="Myosa_intro">MYOSA (Make Your Own Sensors Applications) is a plug-and-play, multipurpose, multi-sensor system for learning and developing sensor based applications. The entire system of MYOSA is like a lego set. All the components of this system are in the form of ‘blocks’ and can simply be plugged into each other. Various blocks include multiple sensors, actuators and an OLED display that shows the sensor readings. This ‘plug and chug’ feature provides the users with ready-to-apply connections of all the necessary components with the motherboard. One doesn’t have to worry about tons of wires and can directly jump to developing creative applications!  The motherboard of MYOSA is an Arduino derived opensource board.  The motherboard also has a Bluetooth module through which the output data gets transferred to the MYOSA mobile app. Thus, MYOSA is a complete package for getting introduced to the world of sensors and creating wonderful real life applications!</string>
+    <string name="homeapp">The MYOSA mobile application has been developed with an aim to bridge the gap between the entire MYOSA system and the user. The user can simply download the mobile app and get connected to his/her own project developed using the MYOSA hardware and firmware. The connection takes place via bluetooth. Once connected, the app provides a great interface for extending the usability of the sensor based project.</string>
+    <string name="ttlmb">MYOSA Motherboard</string>
+    <string name="motherboard">The MYOSA Motherboard is an Arduino derived, open-source, controller board. The board is designed for reading inputs from the MYOSA Sensor boards as well as non-MYOSA inputs, communicate with the MYOSA Mobile App via Bluetooth, has Wifi connection and produces output with the help of MYOSA Actuators as well as other output objects. The ATmega2560 microcontroller of MYOSA enables you to create complex projects with no setup required using MYOSA Firmware and 54 digital I/O pins. You can also edit the MYOSA Firmware code or write your own code for connecting extra inputs and outputs. So connect the MYOSA Sensor boards and play with the outputs to actualize your creativity! </string>
+    <string name="ttlsb">MYOSA Sensorboards</string>>
+    <string name="sensorboard">MYOSA Sensorboards are the part of MYOSA Plug-n-Play concept, which on simply connecting to the MYOSA Motherboard will start reading the inputs from the Sensorboard and display it on the OLED. This relieves you from all the toil of connecting jumper wires, writing the code to get the readings, setting it up and all the mess. The readings will also be immediately displayed on the MYOSA Mobile App in the form of graphs if it is connected with the MYOSA Motherboard. You can also connect sensors and inputs which aren’t a part of MYOSA Kit simply like you connect it to other boards in the market.</string>
+    <string name="ttlact">MYOSA Actuators</string>
+    <string name="actuators">In the simplest language possible, actuators can be considered as a system output. Like sensors are the input, actuators convert energy from one form to another, which is the desired one. MYOSA Actuator-board is powered by Texas instrument chip PCA9536. It takes its power from a 3.3V coin cell. The actuators are isolated with PC817 Sharp optocoupler. It provides mechanical or electrical response according to the input sensed by the sensors and processed by the MYOSA Motherboard. It completes your system or application by giving it an action or response required as per different inputs.</string>
+    <string name="ttlwl">Wireless Connectivity</string>
+    <string name="btname">Onboard Bluetooth v2.0 (HC-05):</string>
+    <string name="btdes">The bluetooth module provides a bridge between the MYOSA hardware and the mobile application. The sensor values are transmitted from the hardware to mobile app periodically via bluetooth.</string>
+    <string name="wifiname">Plug and Play WiFi (ESP8266-12E):</string>
+    <string name="wifides">WiFi facilitates wireless communication and data transfer among MYOSA motherboard and sensors, within the sensors, and over the cloud storage. The sensor values can be transmitted among all these mediums as needed. The WiFi module is in the form of a daughter board which can simple be plugged into the MYOSA motherboard.</string>
+    <string name="ttlfw">The Firmware</string>
+    <string name="firmware">The firmware, that is the code of the entire MYOSA system has been made open source. The code is completely modifiable and customizable as per your own project’s requirements! Other then the sensor/actuator blocks provided in the kit, the required additional components can also be attached to the digital I/O pins of the motherboard and, the firmware can be changed accordingly. Tweak the code as you like and create tons of sensor applications!</string>
+    <string name="packaging">The MYOSA kit has been packaged with the intention of making it attractive to use. The controller board and sensors are housed in 3D-printed semi-transparent boxes. They have been designed and printed by our own team at the Smart City Lab of DA-IICT, India. The top covers are made of transparent acrylic sheets. Different shades of translucent colours make the MYOSA Boards attractive to use. Slots for connections have been made in these housing design for hassle-free plug-and-play action. They provide 360-degree rotation at the connections. The entire design and packaging of MYOSA is very robust and provides great ease of access.</string>
     <string name="title_paired_devices">Paired device</string>
     <string name="title_other_devices">Other device</string>
     <string name="button_scan">Scan</string>
@@ -115,7 +40,6 @@
     <string name="tab_text_2">Features</string>
     <string name="tab_text_3">How to Use</string>
     <string name="bButton">Find Device</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="export_to_csv">Export to CSV</string>
     <string name="myosa">MYOSA</string>
@@ -123,4 +47,11 @@
     <string name="homepack">Packaging:</string>
     <string name="homemoti">Motivation:</string>
     <string name="motivatontext">Learning is always fruitful when one experiments. The curriculum of pre-university students does not include sensors. So far it might have been thought too early for them to introduce it. If they are asked to build a sensor based application, these students might run away just from the sheer mess of soldering wires, coding, ordering the right sensors, etc. Also, with the advent of IoT and dream of Smart Cities, sensors have become an integral part of applications and research just like basic resistors and capacitors. With sensors gaining such an immense importance in ample of technological advancements, it is desirable for the pre-university students to get introduced to the world of sensors. Such introduction to sensors, at the pre-university stage would kindle a curiosity among the students to explore more and contribute in the future advancements. With a motivation to make this learning process playful, without any burden or complexity, we have designed and developed the MYOSA board. We also have developed some basic experiments around this board such that the students or programmers can use it without wasting their efforts and time behind basic sensor coding and operations. It gives a hands-on experience to the users and the suggested projects provoke thought process. One can also design one’s own circuits and applications using sensors.</string>
+    <!--how to use-->
+    <string name="ttlread">Access to sensor readings</string>
+    <string name="readings">The mobile app periodically fetches the readings and outputs of the sensors connected to the MYOSA motherboard. The data observed on the OLED display is uploaded to the app via Bluetooth module and updated from time to time. The graphs of the readings of each sensors are also plotted. The user can study the changing trends of the sensor values using these graphs. Thus, the app provides a very handy and easy access to the sensors data.</string>
+    <string name="ttlevent">Event creation</string>
+    <string name="eventcreation">The mobile app provides a very interesting feature of ‘event creation’ to visualize and manage the behavior of one’s  MYOSA project in particular situations. This feature allows the user to create an event using all/some of the connected sensors. The range of readings can be set for the selected sensors. If the value of those particular sensors violate the range, then the appropriate actuators will be triggered. For example, if the event is ‘Fire detection and alarm’, then the user can set the thresholds for the air quality sensor (for smoke detection), luminosity sensor and the temperature sensor accordingly. If the values of these sensors exceed the thresholds, then the buzzer (actuator) will be triggered. Thus the user can be made aware whenever a fire outbreak occurs! At a time, 3 simultaneous events can be created. Many more useful events can be thought of and implemented via this feature.</string>
+    <string name="ttldb">Availability of local database</string>
+    <string name="db">The values of all the connected sensors are backed up in an excel sheet which will be stored in the internal storage of the mobile on which the app is downloaded. This data can be stored and used in future if needed. The trend analysis can also be done using the sensor values captured over a specific period of time.</string>
 </resources>

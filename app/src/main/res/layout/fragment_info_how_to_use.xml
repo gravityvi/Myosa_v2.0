@@ -2,12 +2,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/wi"
     tools:context="com.example.ravi.myosa.InfoHowToUse">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="how to use page" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/secondaryDarkColor"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="sans-serif"
+                android:text="@string/ttlread"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/cardo"
+                android:text="@string/readings"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/secondaryDarkColor"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="sans-serif"
+                android:text="@string/ttlevent"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/cardo"
+                android:text="@string/eventcreation"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/secondaryDarkColor"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="sans-serif"
+                android:text="@string/ttldb"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/cardo"
+                android:text="@string/db"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/secondaryDarkColor"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="sans-serif"
+                android:text="@string/homepack"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/cardo"
+                android:text="@string/packaging"
+                android:paddingBottom="100dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
