@@ -36,8 +36,6 @@ The entire code of the MYOSA mobile app has been made open source and available 
 
 For further details [click here](https://ieee-sensors.org/myosa/)
 
-![https://creativecommons.org/licenses/by-sa/4.0/](https://licensebuttons.net/l/by-sa/4.0/88x31.png)
-
-MYOSA is licensed under [Creative Commons Attribution-ShareAlike 4](https://creativecommons.org/licenses/by-sa/4.0/)
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />MYOSA is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
 
